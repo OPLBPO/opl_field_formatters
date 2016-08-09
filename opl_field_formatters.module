@@ -1,0 +1,174 @@
+<?php
+
+/**
+ * @file
+ * Custom field formatters module
+ *
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+
+function opl_field_formatters_field_formatter_info() {
+  return array(
+    'event_card_dates' => array(
+      'label' => t('Event card dates'),
+      'field types' => array('datestamp'),
+    ),
+    'event_node_full_dates' => array(
+      'label' => t('Event node full dates'),
+      'field types' => array('datestamp'),
+    ),
+    'blog_category_search_link' => array(
+      'label' => t('Blog category search API link-back'),
+      'field types' => array('entityreference'),
+    ),
+    'branch_title_with_address' => array(
+      'label' => t('Branch title with address'),
+      'field types' => array('entityreference'),
+    ),
+
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+
+function opl_field_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $language;
+  $lang = $language->language;
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'event_card_dates':
+      //dpm($items);
+      //dpm($entity);
+      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $sorted_dates = array();
+      foreach ($items as $delta => $item) {
+        if ($item['value'] > time()) {
+          $sorted_dates[] = $item;
+        }
+      }
+      //dpm($sorted_dates);
+
+      $date_count = count($sorted_dates);
+      if ($lang == 'en') {
+        if ($event_status <> 'active') {
+          $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
+        }
+        elseif ($date_count == 0) {
+          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
+        }
+        elseif ($date_count == 1) {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        } else {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        }
+      } else {
+        setlocale(LC_ALL, 'fr_CA.utf8');
+        if ($event_status <> 'active') {
+          $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
+        }
+        elseif ($date_count == 0) {
+          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
+        }
+        elseif ($date_count == 1) {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . format_date($sorted_dates, 'custom', ' l ') . format_date($sorted_dates, 'event_day') . t(' at ') . format_date($sorted_dates, 'event_time') . '</p>';
+        } else {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        }
+      }
+      break;
+
+    case 'event_node_full_dates':
+     // dpm($items);
+      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $start_date = $items[0]['value'];
+      $sorted_dates = array();
+      foreach ($items as $delta => $item) {
+        if ($item['value'] > time()) {
+          $sorted_dates[] = $item;
+        }
+      }
+      // dpm($sorted_dates);
+
+      $date_count = count($sorted_dates);
+      if ($lang == 'en') {
+        if ($event_status <> 'active') {
+          $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
+        }
+        elseif ($date_count == 0) {
+          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
+        }
+        elseif ($date_count == 1) {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        } else {
+         // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t('Start date: ') . format_date($start_date, 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . format_date($start_date, 'event_day') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+
+        }
+      } else {
+        setlocale(LC_ALL, 'fr_CA.utf8');
+        if ($event_status <> 'active') {
+          $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
+        }
+        elseif ($date_count == 0) {
+          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
+        }
+        elseif ($date_count == 1) {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        } else {
+         // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t('Start date: ') . format_date($start_date, 'event_day') . '<br/>' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . format_date($start_date, 'custom', 'j F, Y') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F, Y') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        }
+      }
+      break;
+
+    case 'blog_category_search_link':
+     // dpm($items);
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+        $translated_term = i18n_taxonomy_localize_terms($term);
+
+        $display_terms = l(
+            $translated_term->name,
+            'staff-blogs',
+            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
+            )));
+
+
+        $element[$delta]['#markup'] = $display_terms;
+      }
+
+      break;
+
+    case 'branch_title_with_address':
+     // dpm($items);
+      foreach ($items as $delta => $item) {
+        $nid = $item['target_id'];
+        $node = node_load($item['target_id']);
+        $address = $node->field_branch_location[LANGUAGE_NONE][0]['street'];
+      //  dpm($node);
+
+        $link = l(
+            $node->title,
+            drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>';
+
+
+        $element[$delta]['#markup'] = $link;
+      }
+
+      break;
+  }
+
+  //dpm($element);
+
+  return $element;
+}
+
+

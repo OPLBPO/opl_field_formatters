@@ -1,0 +1,6 @@
+name = OPL custom field formatters
+description = "Custom field formatters for event dates and other field outputs"
+package = Fields
+core = 7.x
+files[] = opl_field_formatters.module
+project = "--OPL"
