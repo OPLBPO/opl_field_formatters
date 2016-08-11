@@ -28,6 +28,10 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Branch title with address'),
       'field types' => array('entityreference'),
     ),
+    'event_add_to_calendar' => array(
+      'label' => t('OPL add event to calendar'),
+      'field types' => array('datestamp'),
+    ),
 
   );
 }
@@ -98,7 +102,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       $date_count = count($sorted_dates);
       if ($lang == 'en') {
-        if ($event_status <> 'active') {
+        if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
         }
         elseif ($date_count == 0) {
@@ -113,7 +117,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
       } else {
         setlocale(LC_ALL, 'fr_CA.utf8');
-        if ($event_status <> 'active') {
+        if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
         }
         elseif ($date_count == 0) {
@@ -164,6 +168,18 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
 
       break;
+    
+    case 'event_add_to_calendar':
+      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $nid = $entity->nid;
+      if ($event_status <> 'cancelled') {
+        $link = l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('add-cal'))));
+      } else {
+        $link = NULL;
+      }
+      $element[0]['#markup'] = $link;
+
+      break;
   }
 
   //dpm($element);
@@ -172,3 +188,82 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 }
 
 
+
+/**
+ * Implements hook_menu().
+ */
+function opl_field_formatters_menu() {
+  $items = array();
+
+  $items['node/%node/opl_add_to_calendar.ics'] = array(
+      'title' => t('Add to Calendar'),
+      'page callback' => 'opl_field_formatters_ics_download',
+      'page arguments' => array(1),
+      'access callback' => 'node_access',
+      'access arguments' => array('view', 1),
+      'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+
+
+//Calendar functions
+
+function opl_field_formatters_ics_download($node) {
+  global $language;
+  $lang = $language->language;
+
+  drupal_add_http_header('Content-Type','text/calendar; charset=utf-8;');
+  drupal_add_http_header('Content-Disposition','inline; filename="add_to_calendar.ics";');
+
+// 	$description = t("Read more at !link", array('!link' => url('node/' . $node->nid, array('absolute' => TRUE))));
+  $description = isset($node->body['en'][0]['safe_value']) ? $node->body['en'][0]['safe_value'] : $node->body[LANGUAGE_NONE][0]['safe_value'];
+  $created = date("Ymd\THis\Z",$node->created);
+  $reservations = opl_reservation_load_by_nid($node->nid);
+  if (isset($reservations) && !empty($reservations)) {
+    $dates = array();
+    // $loc_details = array();
+    foreach ($reservations as $rid => $reservation) {
+      $dates[] = $reservation->field_reservation_date[LANGUAGE_NONE][0]['value'];
+    }
+  }
+  $title = $node->title;
+  $date_c = array();
+  $branch_id = $node->field_event_branch[LANGUAGE_NONE][0]['target_id'];
+  $branch = node_load($branch_id);
+  $branch_name = $branch->title;
+
+  foreach ($dates as $key => $value) {
+    if (isset($value) && !empty($value) && $value >= strtotime('today')) {
+      $date_c[] = $value;
+    }
+  }
+  $duration = $reservation->field_event_duration[LANGUAGE_NONE][0]['value'];
+  $date_output = '';
+  foreach ($date_c as $did=>$date) {
+    $startdate = date("Ymd\THis",$date);
+    $enddate = date("Ymd\THis",($date + ($duration * 60)));
+    $date_output .= "BEGIN:VEVENT
+DTSTAMP:$created
+UID:event$node->nid-$did@biblioottawalibrary.ca
+ORGANIZER;CN=Ottawa Public Library:MAILTO:infoservice@biblioottawalibrary.ca
+DTSTART;TZID=America/Toronto:$startdate
+DTEND;TZID=America/Toronto:$enddate
+SUMMARY:$title
+DESCRIPTION:$description
+LOCATION:$branch_name
+SEQUENCE:0
+END:VEVENT\r\n";
+  }
+
+  print "BEGIN:VCALENDAR
+PRODID:-//Calendar//Calendar Event//EN
+VERSION:2.0
+METHOD:PUBLISH
+$date_output
+END:VCALENDAR";
+  exit();
+}
