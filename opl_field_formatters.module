@@ -50,7 +50,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
     case 'event_card_dates':
       //dpm($items);
       //dpm($entity);
-      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $event_lang = $entity->language;
+      $event_status = '';
+      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $sorted_dates = array();
       foreach ($items as $delta => $item) {
         if ($item['value'] > time()) {
@@ -61,7 +63,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       $date_count = count($sorted_dates);
       if ($lang == 'en') {
-        if ($event_status <> 'active') {
+        if ($event_status == 'active') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
         }
         elseif ($date_count == 0) {
@@ -90,7 +92,8 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
     case 'event_node_full_dates':
      // dpm($items);
-      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $event_lang = $entity->language;
+      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $start_date = $items[0]['value'];
       $sorted_dates = array();
       foreach ($items as $delta => $item) {
@@ -170,7 +173,8 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
     
     case 'event_add_to_calendar':
-      $event_status = isset($entity->field_event_status['en'][0]['value']) ? $entity->field_event_status['en'][0]['value'] : $entity->field_event_status[LANGUAGE_NONE][0]['value'];
+      $event_lang = $entity->language;
+      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $nid = $entity->nid;
       if ($event_status <> 'cancelled') {
         $link = l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('add-cal'))));
