@@ -63,7 +63,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       $date_count = count($sorted_dates);
       if ($lang == 'en') {
-        if ($event_status == 'active') {
+        if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
         }
         elseif ($date_count == 0) {
@@ -76,7 +76,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
       } else {
         setlocale(LC_ALL, 'fr_CA.utf8');
-        if ($event_status <> 'active') {
+        if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
         }
         elseif ($date_count == 0) {
