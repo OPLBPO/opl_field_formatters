@@ -165,7 +165,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         $node = node_load($item['target_id']);
         $address = $node->field_branch_location[LANGUAGE_NONE][0]['street'];
         $room_info = _opl_field_formatters_get_reservations($entity);
-        dpm($room_info);
         $remaining = count($room_info);
         $room = $room_info[0]['room'];
         $duration = $room_info[0]['duration'];
