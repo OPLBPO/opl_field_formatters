@@ -198,6 +198,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
     case 'event_status_details':
       global $user;
       $event_status = opl_registration_event_status($entity);
+      dpm($event_status);
       $reg_start = str_replace('h 00', 'h', format_date($entity->field_registration_open[LANGUAGE_NONE][0]['value'], 'long'));
       switch ($event_status) {
         case 'no-reg-open' :
