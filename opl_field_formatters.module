@@ -52,8 +52,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
   switch ($display['type']) {
     case 'event_card_dates':
-      //dpm($items);
-      //dpm($entity);
       $event_lang = $entity->language;
       $event_status = '';
       $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
@@ -63,8 +61,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $sorted_dates[] = $item;
         }
       }
-      //dpm($sorted_dates);
-
       $date_count = count($sorted_dates);
       if ($lang == 'en') {
         if ($event_status == 'cancelled') {
@@ -198,7 +194,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
     case 'event_status_details':
       global $user;
       $event_status = opl_registration_event_status($entity);
-      dpm($event_status);
       $reg_start = str_replace('h 00', 'h', format_date($entity->field_registration_open[LANGUAGE_NONE][0]['value'], 'long'));
       switch ($event_status) {
         case 'no-reg-open' :
