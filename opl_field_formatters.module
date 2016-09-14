@@ -35,7 +35,23 @@ function opl_field_formatters_field_formatter_info() {
     'event_status_details' => array(
       'label' => t('Event status details'),
       'field types' => array('list_boolean'),
-    )
+    ),
+    'event_card_subjects' => array(
+      'label' => t('Event card subject headings'),
+      'field types' => array('entityreference'),
+    ),
+    'blog_card_subjects' => array(
+      'label' => t('Blog card subject headings'),
+      'field types' => array('entityreference'),
+    ),
+    'formatted_database_link' => array(
+      'label' => t('Formatted database link with IP check'),
+      'field types' => array('link_field'),
+    ),
+    'database_subjects' => array(
+      'label' => t('Database subjects'),
+      'field types' => array('entityreference'),
+    ),
 
   );
 }
@@ -223,9 +239,97 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $element[0]['#markup'] = $status_text;
 
       break;
-  }
 
-  //dpm($element);
+    case 'event_card_subjects':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+        $translated_term = i18n_taxonomy_localize_terms($term);
+
+        $display_terms[] = l(
+            $translated_term->name,
+            'program',
+            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
+            )));
+
+      //  $element[$delta]['#markup'] = $display_terms;
+      }
+
+      $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
+
+      break;
+
+    case 'database_subjects':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+        $translated_term = i18n_taxonomy_localize_terms($term);
+
+        $display_terms[] = l(
+            $translated_term->name,
+            'databases/search-all',
+            array('query' => array('subject'=>$tid
+            )));
+
+        $subject_output = '<ul class="database-subjects">';
+        foreach($display_terms as $dt) {
+          $subject_output .= '<li>' . $dt . '</li>';
+        }
+        $subject_output .= '</ul>';
+
+
+      }
+
+      $element[0]['#markup'] = $subject_output;
+
+      break;
+
+    case 'formatted_database_link':
+      global $language;
+      $lang = $language->language;
+      $wrapper = entity_metadata_wrapper('node', $entity);
+
+      foreach ($items as $delta => $item) {
+        $path = 'https://ezproxy.biblioottawalibrary.ca/login';
+        $query = $item['query']['qurl'];
+       // $restricted = field_view_value('node', $entity, 'field_resource_in_library', $items[0]);
+        $restricted = $wrapper->field_resource_in_library->value() == 'Yes' ? TRUE : FALSE;
+        $title = $wrapper->title_field->value();
+        $tooltip = user_is_logged_in() ? t('Go to') : t('Log in and go to');
+       // $entity->field_resource_in_library[LANGUAGE_NONE][0]['value'] == 'Yes' ? $restricted = TRUE : $restricted = FALSE;
+        $options = array(
+          'restricted' => $restricted,
+          'query' => array('qurl' => $query),
+          'html' => TRUE,
+          'attributes' => array(
+            'class' => array('btn', 'btn-primary'),
+            'title' => $tooltip . ' ' . $title,
+            'data-toggle' => 'tooltip',
+            'data-placement' => 'bottom',
+          ),
+
+
+
+
+        );
+      }
+
+      if(module_exists('opl_ips')) {
+        $link = wl($title, $path, $options);
+      } else {
+        $link = l($title, $path, $options);
+      }
+
+      if (!$restricted) {
+        $element[0]['#markup'] = $link . '<div class="bookmark"><button class="btn">' . flag_create_link('bookmarks', $entity->nid) . '</button></div>';
+      } else {
+        $element[0]['#markup'] = $link;
+      }
+      break;
+
+  }
 
   return $element;
 }
