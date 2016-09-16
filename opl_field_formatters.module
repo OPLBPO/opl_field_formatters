@@ -219,7 +219,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $status_text = '<h3><span class="label label-danger">' . t('Sorry, this event has been cancelled') . '</span></h3>';
           break;
         case 'open' :
-          $user == 0 ? $status_text = '<h3>' . l(t('Log in and register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>'
+          $user->id == 0 ? $status_text = '<h3>' . l(t('Log in and register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>'
            : $status_text = '<h3>' . l(t('Register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>';
           break;
         case 'waitlist' :
