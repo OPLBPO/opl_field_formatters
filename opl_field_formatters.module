@@ -99,7 +99,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
         }
         elseif ($date_count == 1) {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . format_date($sorted_dates, 'custom', ' l ') . format_date($sorted_dates, 'event_day') . t(' at ') . format_date($sorted_dates, 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l '))) . ' ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         } else {
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         }
