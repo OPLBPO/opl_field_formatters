@@ -107,7 +107,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
 
     case 'event_node_full_dates':
-     // dpm($items);
       $event_lang = $entity->language;
       $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $start_date = $items[0]['value'];
@@ -257,6 +256,24 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
 
       $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
+
+      break;
+
+    case 'blog_card_subjects':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+        $translated_term = i18n_taxonomy_localize_terms($term);
+
+        $display_terms[] = l(
+            $translated_term->name,
+            'staff-blogs',
+            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
+            )));
+      }
+
+      $element[0]['#markup'] = '<header>' . t('Staff Blog') . ' / ' . implode(', ', $display_terms) . '</header>';
 
       break;
 
