@@ -52,6 +52,10 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Database subjects'),
       'field types' => array('entityreference'),
     ),
+     'site_announcement_icon' => array(
+      'label' => t('Site announcement type and icon'),
+      'field types' => array('list_text'),
+  ),
 
   );
 }
@@ -326,10 +330,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             'data-toggle' => 'tooltip',
             'data-placement' => 'bottom',
           ),
-
-
-
-
         );
       }
 
@@ -344,6 +344,27 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       } else {
         $element[0]['#markup'] = $link;
       }
+      break;
+
+    case 'site_announcement_icon':
+      $status = '';
+      foreach ($items as $delta => $item) {
+        switch ($item['value']) {
+          case 'yellow' :
+            $status = 'warning';
+            break;
+          case 'red' :
+            $status = 'danger';
+            break;
+          case 'green' :
+            $status = 'info';
+            break;
+
+        }
+        }
+
+      $element[0]['#markup'] = $status;
+
       break;
 
   }
