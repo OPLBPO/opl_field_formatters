@@ -52,10 +52,14 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Database subjects'),
       'field types' => array('entityreference'),
     ),
-     'site_announcement_icon' => array(
+    'site_announcement_icon' => array(
       'label' => t('Site announcement type and icon'),
       'field types' => array('list_text'),
-  ),
+    ),
+    'equipment_booking_link' => array(
+      'label' => t('Equipment booking link'),
+      'field types' => array('list_text'),
+      ),
 
   );
 }
@@ -361,9 +365,38 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             break;
 
         }
-        }
+      }
 
       $element[0]['#markup'] = $status;
+
+      break;
+
+    case 'equipment_booking_link':
+      global $user;
+      $wrapper = entity_metadata_wrapper('node', $entity);
+      $title = $wrapper->title_field->value();
+
+      foreach ($items as $delta => $item) {
+        $button_text = '';
+        switch ($item['value']) {
+          case 0 :
+            user_is_logged_in() ?
+              $button_text = '<h3>' . l(t('Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn btn-success'), 'aria-label' => t('Book: ') . $title))) . '</h3>' :
+              $button_text = '<h3>' . l(t('Login and Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn,btn-success'), 'aria-label' => t('Book: ') . $title))) . '</h3>';
+            break;
+
+          case 1 :
+            $button_text = '<p class="alert alert-warning">' . t('7-day loans, not holdable') . '</p>' .
+                '<h3>' . l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title))) . '</h3>';
+            break;
+
+          case 2 :
+            $button_text = '<p class="alert alert-warning">' . t('2-hour loan, must remain in branch') . '</p>' .
+                '<h3>' . l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title))) . '</h3>';
+            break;
+        }
+      }
+      $element[0]['#markup'] = $button_text;
 
       break;
 
