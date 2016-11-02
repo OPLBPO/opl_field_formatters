@@ -206,7 +206,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $nid = $entity->nid;
       if ($event_status <> 'cancelled') {
-        $link = '<h3>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h3>';
+        $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
       } else {
         $link = NULL;
       }
@@ -220,13 +220,13 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $reg_start = str_replace('h 00', 'h', format_date($entity->field_registration_open[LANGUAGE_NONE][0]['value'], 'long'));
       switch ($event_status) {
         case 'no-reg-open' :
-          $status_text = '<h3><span class="label label-info">' . t('Drop-in program') . '</span></h3>';
+          $status_text = '<h3>' . t('Drop-in program') . '</h3>';
           break;
         case 'cancelled' :
           $status_text = '<h3><span class="label label-danger">' . t('Sorry, this event has been cancelled') . '</span></h3>';
           break;
         case 'open' :
-          $user->id == 0 ? $status_text = '<h3>' . l(t('Log in and register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>'
+          $user->uid == 0 ? $status_text = '<h3>' . l(t('Log in and register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>'
            : $status_text = '<h3>' . l(t('Register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>';
           break;
         case 'waitlist' :
@@ -239,7 +239,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $status_text = '<h3><span class="label label-danger">' . t('Sorry this event is full') . '</span></h3>';
           break;
         case 'reg:not-yet-open' :
-          $status_text = '<h3><span class="label label-info">' . t('Registration opens on ') . $reg_start . '</span></h3>';
+          $status_text = '<h3>' . t('Registration opens on ') . $reg_start . '</h3>';
           break;
       }
 
@@ -381,18 +381,20 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         switch ($item['value']) {
           case 0 :
             user_is_logged_in() ?
-              $button_text = '<h3>' . l(t('Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn btn-success'), 'aria-label' => t('Book: ') . $title))) . '</h3>' :
-              $button_text = '<h3>' . l(t('Login and Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn,btn-success'), 'aria-label' => t('Book: ') . $title))) . '</h3>';
+              $button_text = l(t('Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn btn-success'), 'aria-label' => t('Book: ') . $title))) :
+              $button_text = l(t('Login and Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn,btn-success'), 'aria-label' => t('Book: ') . $title)));
             break;
 
           case 1 :
-            $button_text = '<p class="alert alert-warning">' . t('7-day loans, not holdable') . '</p>' .
-                '<h3>' . l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title))) . '</h3>';
+            $button_qualifier = t('7-day loans, not holdable');
+            $button_text = '<p class="alert alert-warning">' . $button_qualifier . '</p>' .
+                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' ' . t('(Link is external)'))));
             break;
 
           case 2 :
-            $button_text = '<p class="alert alert-warning">' . t('2-hour loan, must remain in branch') . '</p>' .
-                '<h3>' . l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title))) . '</h3>';
+            $button_qualifier = t('2-hour loan, must remain in branch');
+            $button_text = '<p class="alert alert-warning">' . $button_qualifier . '</p>' .
+                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' '. t('(Link is external)'))));
             break;
         }
       }
@@ -491,60 +493,7 @@ END:VCALENDAR";
  * wrapper function around opl_reservation_load_by_nid
  */
 
-//function _opl_field_formatters_get_reservations(&$entity) {
-//  global $language;
-//  $sorted_dates = array();
-//  $curdates = array();
-//  $reservations = opl_reservation_load_by_nid($entity->nid);
-//
-//  //if there's registrations and the event is not past, cancelled
-//  if (isset($reservations) && !empty($reservations)) {
-//    $loc_details = array();
-//    foreach ($reservations as $rid => $reservation) {
-//      $meeting_room_node = node_load($reservation->field_meeting_room[LANGUAGE_NONE][0]['target_id']);
-//      //Test Getachew
-//      $eventdate = format_date($reservation->field_reservation_date[LANGUAGE_NONE][0]['value']);
-//      $onlydate = explode(' - ', $eventdate);
-//      $todayd= date("F d, Y");
-//      if ($language->language == 'fr'){
-//        setlocale(LC_ALL, 'fr_CA.utf8');
-//        $todayf= strftime("%A %d %B %Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
-//      }
-//
-//      //if( strtotime($onlydate[0]) > strtotime($todayd)){
-//      if( $reservation->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd))
-//        $sorted_dates[] = $reservation->field_reservation_date[LANGUAGE_NONE][0]['value'];
-//
-//      //end
-//      $loc_details[] = array(
-//          'date' => str_replace('h 00', 'h', format_date($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'], 'long')),
-//          'room' => $meeting_room_node->title,
-//          'duration' => $reservation->field_event_duration[LANGUAGE_NONE][0]['value'] . ' ' . t('mins.'),
-//      );
-//    }
-//    asort($sorted_dates);
-//
-//    foreach ($sorted_dates as $sd => $sorted_date) {
-//      $curdates[] = str_replace('h 00', 'h', format_date($sorted_date, 'long'));
-//    }
-//
-//    $dates = '';
-//    if (!empty($loc_details[0]['date'])) {
-//      $dates = array();
-//      foreach ($loc_details as $date) {
-//        if (isset($date['date'])) $dates[] = $date['date'];
-//      }
-//    }
-//    $date_count = count($dates);
-//    if (!empty($loc_details[0]['room'])) $vars['room'] = $loc_details[0]['room'];
-//    if (!empty($loc_details[0]['duration'])) $vars['duration'] = $loc_details[0]['duration'];
-//
-//    $start_time = str_replace('h00', 'h', format_date($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'], 'event_time'));
-//
-//  }
-//  //printAndDie($vars['dates'], $vars['reg_status']);
-//
-//}
+//This will need to be updated or replaced after Frank's update from bookings-reservations-refactor branch
 
 function _opl_field_formatters_get_reservations(&$entity) {
   global $language;
