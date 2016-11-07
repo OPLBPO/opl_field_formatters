@@ -493,15 +493,15 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
 
     case 'event_image_search_results':
-      // dpm($items);
-        foreach ($items as $delta => $item) {
-            $element[$delta] = array(
-              '#theme' => 'image_formatter',
-              '#item' => $item,
-              '#image_style' => $display['settings']['image_style'],
-              '#path' => isset($uri) ? $uri : '',
-            );
-        }
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'image_formatter',
+          '#item' => $item,
+          '#image_style' => $display['settings']['image_style'],
+          '#path' => isset($uri) ? $uri : '',
+        );
+      }
+      dpm($element);
 
       break;
 
