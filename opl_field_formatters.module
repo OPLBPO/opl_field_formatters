@@ -493,15 +493,44 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
 
     case 'event_image_search_results':
-      foreach ($items as $delta => $item) {
-        $element[$delta] = array(
-          '#theme' => 'image_formatter',
-          '#item' => $item,
-          '#image_style' => $display['settings']['image_style'],
-          '#path' => isset($uri) ? $uri : '',
-        );
-      }
-      dpm($element);
+        foreach ($items as $delta => $item) {
+
+          $mime = file_get_mimetype($item['uri']);
+
+          if ($mime == 'image/svg+xml') {
+
+            $path = drupal_realpath($item['uri']);
+            if (file_exists($path)) {
+              $classes = array('svg-object','svg-image','img-responsive');
+
+              $attrs = array(
+                  'class' => $classes
+              );
+              $attrs['data'] = file_create_url($item['uri']);
+              $attrs['type'] = "image/svg+xml";
+
+             // $attrs['src'] = file_create_url($item['uri']);
+
+              $render_map = array(
+              //  '#theme' => 'image_formatter',
+              //  '#item' => $item,
+              //  '#image_style' => $display['settings']['image_style'],
+              //  '#path' => isset($uri) ? $uri : '',
+                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+              );
+            }
+
+            $element[$delta] = $render_map;
+
+          } else {
+            $element[$delta] = array(
+              '#theme' => 'image_formatter',
+              '#item' => $item,
+              '#image_style' => $display['settings']['image_style'],
+              '#path' => isset($uri) ? $uri : '',
+            );
+          }
+        }
 
       break;
 
