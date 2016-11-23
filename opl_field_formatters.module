@@ -20,6 +20,10 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Event node full dates'),
       'field types' => array('datestamp'),
     ),
+      'event_node_full_date_list' => array(
+          'label' => t('Event node list of all dates'),
+          'field types' => array('datestamp'),
+      ),
     'blog_category_search_link' => array(
       'label' => t('Blog category search API link-back'),
       'field types' => array('entityreference'),
@@ -184,9 +188,11 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
         }
         elseif ($date_count == 1) {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+         // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         } else {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+         // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         }
       } else {
         setlocale(LC_ALL, 'fr_CA.utf8');
@@ -197,9 +203,12 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
         }
         elseif ($date_count == 1) {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l '))) . ' ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+         // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l '))) . ' ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . ' ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+
         } else {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        //  $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         }
       }
       break;
@@ -228,7 +237,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         } else {
          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t('Start date: ') . format_date($start_date, 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . format_date($start_date, 'event_day') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . format_date($start_date, 'event_day') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p><p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
 
         }
       } else {
@@ -244,6 +253,48 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         } else {
          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t('Start date: ') . format_date($start_date, 'event_day') . '<br/>' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . format_date($start_date, 'custom', 'j F, Y') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F, Y') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        }
+      }
+      break;
+
+    case 'event_node_full_date_list':
+      $event_lang = $entity->language;
+      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
+      $start_date = $items[0]['value'];
+      $sorted_dates = array();
+      foreach ($items as $delta => $item) {
+        if ($item['value'] > time()) {
+          $lang == 'en' ? $sorted_dates[] = format_date($item['value'], 'short') : $sorted_dates[] = format_date($item['value'], 'custom', 'j F, Y G\hi');
+        }
+      }
+
+    //  dpm($sorted_dates);
+
+      $date_count = count($sorted_dates);
+      if ($lang == 'en') {
+        if ($event_status == 'cancelled') {
+          $element[0]['#markup'] = '';
+        }
+        elseif ($date_count <= 1) {
+          $element[0]['#markup'] = '';
+        } else {
+          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . t('Start date: ') . format_date($start_date, 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+        //  $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . format_date($start_date, 'event_day') . t(' - ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . '<br/>' . format_date($sorted_dates[0]['value'], 'event_time') . '</p><p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
+          $element[0]['#markup'] = '<button type="button" class="btn event-dates" data-toggle="collapse" data-target="#dates">' . t('View all upcoming dates') . '</button>';
+          $element[0]['#markup'] .= '<ul id="dates" class="collapse"><li>' . implode('</li><li>', $sorted_dates) . '</li></ul>';
+
+        }
+      } else {
+        setlocale(LC_ALL, 'fr_CA.utf8');
+        if ($event_status == 'cancelled') {
+          $element[0]['#markup'] = '';
+        }
+        elseif ($date_count <= 1) {
+          $element[0]['#markup'] = '';
+        }
+        else {
+          $element[0]['#markup'] = '<button type="button" class="btn event-dates" data-toggle="collapse" data-target="#dates">' . t('View all upcoming dates') . '</button>';
+          $element[0]['#markup'] .= '<ul id="dates" class="collapse"><li>' . implode('</li><li>', $sorted_dates) . '</li></ul>';
         }
       }
       break;
