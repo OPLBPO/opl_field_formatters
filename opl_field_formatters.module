@@ -408,23 +408,40 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       foreach ($items as $delta => $item) {
         $path = 'https://ezproxy.biblioottawalibrary.ca/login';
-        $query = $item['query']['qurl'];
-       // $restricted = field_view_value('node', $entity, 'field_resource_in_library', $items[0]);
+        $query = isset($item['query']['qurl']) ? $item['query']['qurl'] : NULL;
+        if ($item['url'] <> $path) {
+          $path = $item['url'];
+        }
+
+        // $restricted = field_view_value('node', $entity, 'field_resource_in_library', $items[0]);
         $restricted = $wrapper->field_resource_in_library->value() == 'Yes' ? TRUE : FALSE;
         $title = $wrapper->title_field->value();
         $tooltip = user_is_logged_in() ? t('Go to') : t('Log in and go to');
-       // $entity->field_resource_in_library[LANGUAGE_NONE][0]['value'] == 'Yes' ? $restricted = TRUE : $restricted = FALSE;
-        $options = array(
-          'restricted' => $restricted,
-          'query' => array('qurl' => $query),
-          'html' => TRUE,
-          'attributes' => array(
-            'class' => array('btn', 'btn-primary'),
-            'title' => $tooltip . ' ' . $title,
-            'data-toggle' => 'tooltip',
-            'data-placement' => 'bottom',
-          ),
-        );
+        // $entity->field_resource_in_library[LANGUAGE_NONE][0]['value'] == 'Yes' ? $restricted = TRUE : $restricted = FALSE;
+        if (is_null($query)) {
+          $options = array(
+              'restricted' => $restricted,
+              'html' => TRUE,
+              'attributes' => array(
+                  'class' => array('btn', 'btn-primary'),
+                  'title' => $tooltip . ' ' . $title,
+                  'data-toggle' => 'tooltip',
+                  'data-placement' => 'bottom',
+              ),
+          );
+        } else {
+          $options = array(
+              'restricted' => $restricted,
+              'query' => array('qurl' => $query),
+              'html' => TRUE,
+              'attributes' => array(
+                  'class' => array('btn', 'btn-primary'),
+                  'title' => $tooltip . ' ' . $title,
+                  'data-toggle' => 'tooltip',
+                  'data-placement' => 'bottom',
+              ),
+          );
+        }
       }
 
       if(module_exists('opl_ips')) {
