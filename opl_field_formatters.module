@@ -208,7 +208,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
         } else {
         //  $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . ' jusqu\'à ' . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . ' à ' . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         }
       }
       break;
@@ -264,13 +264,16 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $sorted_dates = array();
       foreach ($items as $delta => $item) {
         if ($item['value'] > time()) {
-          $lang == 'en' ? $sorted_dates[] = format_date($item['value'], 'short') : $sorted_dates[] = format_date($item['value'], 'custom', 'j F, Y G\hi');
+          if ($lang == 'en') {
+            $sorted_dates[] = format_date($item['value'], 'short');
+          } else {
+            $sorted_dates[] = format_date($item['value'], 'custom', 'j F, Y G\hi');
+          }
         }
       }
 
-    //  dpm($sorted_dates);
-
       $date_count = count($sorted_dates);
+
       if ($lang == 'en') {
         if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '';
@@ -293,7 +296,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           $element[0]['#markup'] = '';
         }
         else {
-          $element[0]['#markup'] = '<button type="button" class="btn event-dates" data-toggle="collapse" data-target="#dates">' . t('View all upcoming dates') . '</button>';
+          $element[0]['#markup'] = '<button type="button" class="btn event-dates" data-toggle="collapse" data-target="#dates">' . 'Voir toutes les dates à venir' . '</button>';
           $element[0]['#markup'] .= '<ul id="dates" class="collapse"><li>' . implode('</li><li>', $sorted_dates) . '</li></ul>';
         }
       }
