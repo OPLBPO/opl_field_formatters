@@ -326,6 +326,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
     case 'branch_title_with_address':
      // dpm($items);
+      $link = '';
       foreach ($items as $delta => $item) {
         $nid = $item['target_id'];
         $node = node_load($item['target_id']);
@@ -335,15 +336,13 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         if ($room_info) {
           $room = $room_info[0]['room'];
           $duration = $room_info[0]['duration'];
-        }
-
-
 
         $link = l(
             $node->title,
             drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>
             <div class="event-room">' . $room . '</div><div class="event-duration">' . $duration . '</div>';
 
+        }
 
         $element[$delta]['#markup'] = $link;
       }
@@ -354,7 +353,13 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $event_lang = $entity->language;
       $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
       $nid = $entity->nid;
-      if ($event_status <> 'cancelled') {
+      $sorted_dates = array();
+      foreach ($items as $delta => $item) {
+        if ($item['value'] > time()) {
+            $sorted_dates[] = $item['value'];
+        }
+      }
+      if ($sorted_dates && ($event_status <> 'cancelled')) {
         $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
       } else {
         $link = NULL;
@@ -367,6 +372,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       global $user;
       $event_status = opl_registration_event_status($entity);
       $reg_start = str_replace('h 00', 'h', format_date($entity->field_registration_open[LANGUAGE_NONE][0]['value'], 'long'));
+      $status_text = '';
       switch ($event_status) {
         case 'no-reg-open' :
           $status_text = '<h3>' . t('Drop-in program') . '</h3>';
@@ -401,15 +407,18 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       foreach ($items as $delta => $item) {
         $tid = $item['target_id'];
         $term = taxonomy_term_load($tid);
-        $translated_term = i18n_taxonomy_localize_terms($term);
 
-        $display_terms[] = l(
-            $translated_term->name,
-            'program',
-            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
-            )));
+        if ($term) {
+          $translated_term = i18n_taxonomy_localize_terms($term);
 
-      //  $element[$delta]['#markup'] = $display_terms;
+          $display_terms[] = l(
+              $translated_term->name,
+              'program',
+              array('query' => array('f[' . $delta . ']' => 'taxonomy_vocabulary_21:' . $tid
+              )));
+
+          //  $element[$delta]['#markup'] = $display_terms;
+        }
       }
 
       $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
