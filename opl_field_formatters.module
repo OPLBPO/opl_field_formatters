@@ -20,12 +20,16 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Event node full dates'),
       'field types' => array('datestamp'),
     ),
-      'event_node_full_date_list' => array(
-          'label' => t('Event node list of all dates'),
-          'field types' => array('datestamp'),
-      ),
+    'event_node_full_date_list' => array(
+      'label' => t('Event node list of all dates'),
+      'field types' => array('datestamp'),
+    ),
     'blog_category_search_link' => array(
       'label' => t('Blog category search API link-back'),
+      'field types' => array('entityreference'),
+    ),
+    'blog_category_search_link_new' => array(
+      'label' => t('New blog detail page category link'),
       'field types' => array('entityreference'),
     ),
     'branch_title_with_address' => array(
@@ -44,8 +48,20 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Event card subject headings'),
       'field types' => array('entityreference'),
     ),
+    'event_card_subjects_new' => array(
+      'label' => t('New event card subject headings'),
+      'field types' => array('entityreference'),
+      ),
+    'event_detail_subjects_new' => array(
+      'label' => t('New event detail page subject headings'),
+      'field types' => array('entityreference'),
+    ),
     'blog_card_subjects' => array(
       'label' => t('Blog card subject headings'),
+      'field types' => array('entityreference'),
+    ),
+    'blog_card_subjects_new' => array(
+      'label' => t('New blog card subject headings'),
       'field types' => array('entityreference'),
     ),
     'formatted_database_link' => array(
@@ -54,6 +70,10 @@ function opl_field_formatters_field_formatter_info() {
     ),
     'database_subjects' => array(
       'label' => t('Database subjects'),
+      'field types' => array('entityreference'),
+    ),
+    'database_subjects_new' => array(
+      'label' => t('New database subjects'),
       'field types' => array('entityreference'),
     ),
     'site_announcement_icon' => array(
@@ -192,10 +212,10 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         elseif ($date_count == 1) {
          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l ') . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', 'l M j, Y') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
         } else {
          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', ' l') . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . ' /' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day')  . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', 'l M j, Y') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . ' /' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'event_day')  . '</p>';
         }
       } else {
         setlocale(LC_ALL, 'fr_CA.utf8');
@@ -207,11 +227,11 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         elseif ($date_count == 1) {
          // $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l '))) . ' ' . format_date($sorted_dates[0]['value'], 'event_day') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . ' ' . format_date($sorted_dates[0]['value'], 'custom', 'j F') . t(' at ') . str_replace('h00', 'h', format_date($sorted_dates[0]['value'], 'event_time')) . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . ' ' . format_date($sorted_dates[0]['value'], 'custom', 'l j F, Y') . t(' at ') . str_replace('h00', 'h', format_date($sorted_dates[0]['value'], 'event_time')) . '</p>';
 
         } else {
         //  $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0]['value'], 'custom', ' l'))) . 's, ' . t(' until ') . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . t(' at ') . format_date($sorted_dates[0]['value'], 'event_time') . '</p>';
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', 'j F') . ' à ' . str_replace('h00', 'h', format_date($sorted_dates[0]['value'], 'event_time')) . ' /' . ' jusqu\'à ' . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . '</p>';
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0]['value'], 'custom', 'l j F, Y') . ' à ' . str_replace('h00', 'h', format_date($sorted_dates[0]['value'], 'event_time')) . ' /' . ' jusqu\'à ' . format_date($sorted_dates[$date_count - 1]['value'], 'custom', 'j F') . '</p>';
         }
       }
       break;
@@ -324,6 +344,22 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       break;
 
+    case 'blog_category_search_link_new':
+      // dpm($items);
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+
+        $display_terms = l(
+            $term->name,
+            'staff-blogs',
+            array('query' => array('f[' . $delta . ']'=>'field_category:'.$tid
+            )));
+        $element[$delta]['#markup'] = $display_terms;
+      }
+
+      break;
+
     case 'branch_title_with_address':
      // dpm($items);
       $link = '';
@@ -416,12 +452,49 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               'program',
               array('query' => array('f[' . $delta . ']' => 'taxonomy_vocabulary_21:' . $tid
               )));
-
-          //  $element[$delta]['#markup'] = $display_terms;
         }
       }
 
       $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
+
+      break;
+
+    case 'event_card_subjects_new':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+
+        if ($term) {
+
+          $display_terms[] = l(
+              $term->name,
+              'program',
+              array('query' => array('f[' . $delta . ']' => 'field_category:' . $tid
+              )));
+        }
+      }
+      $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
+
+      break;
+
+    case 'event_detail_subjects_new':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+        if ($term) {
+
+          $display_terms[] = l(
+              $term->name,
+              'program',
+              array('query' => array('f[' . $delta . ']' => 'field_category:' . $tid
+              )));
+
+        }
+      }
+
+      $element[0]['#markup'] = implode(', ', $display_terms);
 
       break;
 
@@ -443,6 +516,23 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       break;
 
+    case 'blog_card_subjects_new':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+
+        $display_terms[] = l(
+            $term->name,
+            'staff-blogs',
+            array('query' => array('f[' . $delta . ']'=>'field_category:'.$tid
+            )));
+      }
+
+      $element[0]['#markup'] = '<header>' . t('Staff Blog') . ' / ' . implode(', ', $display_terms) . '</header>';
+
+      break;
+
     case 'database_subjects':
       $display_terms = array();
       foreach ($items as $delta => $item) {
@@ -452,6 +542,31 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
         $display_terms[] = l(
             $translated_term->name,
+            'databases/search-all',
+            array('query' => array('subject'=>$tid
+            )));
+
+        $subject_output = '<ul class="database-subjects">';
+        foreach($display_terms as $dt) {
+          $subject_output .= '<li>' . $dt . '</li>';
+        }
+        $subject_output .= '</ul>';
+
+
+      }
+
+      $element[0]['#markup'] = $subject_output;
+
+      break;
+
+    case 'database_subjects_new':
+      $display_terms = array();
+      foreach ($items as $delta => $item) {
+        $tid = $item['target_id'];
+        $term = taxonomy_term_load($tid);
+
+        $display_terms[] = l(
+            $term->name,
             'databases/search-all',
             array('query' => array('subject'=>$tid
             )));
