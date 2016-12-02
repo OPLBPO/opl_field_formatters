@@ -378,6 +378,10 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>
             <div class="event-room">' . $room . '</div><div class="event-duration">' . $duration . '</div>';
 
+        } else {
+        $link = l(
+          $node->title,
+          drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>';
         }
 
         $element[$delta]['#markup'] = $link;
@@ -832,10 +836,10 @@ function _opl_field_formatters_get_reservations(&$entity) {
   $sorted_dates = array();
   $curdates = array();
   $reservations = opl_reservation_load_by_nid($entity->nid);
+  $loc_details = array();
 
   //if there's registrations and the event is not past, cancelled
   if (isset($reservations) && !empty($reservations)) {
-    $loc_details = array();
     foreach ($reservations as $rid => $reservation) {
       $meeting_room_node = node_load($reservation->field_meeting_room[LANGUAGE_NONE][0]['target_id']);
       //Test Getachew
@@ -871,5 +875,5 @@ function _opl_field_formatters_get_reservations(&$entity) {
 
 
   }
-  return $loc_details;
+    return $loc_details;
 }
