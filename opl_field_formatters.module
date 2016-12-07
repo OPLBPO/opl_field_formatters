@@ -457,6 +457,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               array('query' => array('f[' . $delta . ']' => 'taxonomy_vocabulary_21:' . $tid
               )));
         }
+        if ($delta == 2) {
+          break;
+        }
       }
 
       $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
@@ -476,6 +479,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               'program',
               array('query' => array('f[' . $delta . ']' => 'field_category:' . $tid
               )));
+        }
+        if ($delta == 2) {
+          break;
         }
       }
       $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
@@ -531,6 +537,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             'staff-blogs',
             array('query' => array('f[' . $delta . ']'=>'field_category:'.$tid
             )));
+        if ($delta == 2) {
+          break;
+        }
       }
 
       $element[0]['#markup'] = '<header>' . t('Staff Blog') . ' / ' . implode(', ', $display_terms) . '</header>';
