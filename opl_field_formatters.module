@@ -95,6 +95,11 @@ function opl_field_formatters_field_formatter_info() {
       'field types' => array('image'),
       'settings' => array('image_style' => '', 'image_link' => ''),
     ),
+    'svg_image_tester' => array(
+      'label' => t('SVG image test formatter'),
+      'field types' => array('image'),
+      'settings' => array('image_style' => '', 'image_link' => ''),
+    ),  
 
   );
 }
@@ -186,7 +191,9 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
           if (empty($items[$id])) {
             $wrapper = entity_metadata_wrapper('node', $entity);
             $term = $wrapper->field_category->value();
-            $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
+            if (!empty($term[0]->field_term_image[LANGUAGE_NONE])) {
+              $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
+            }
           }
 
           break;
@@ -762,6 +769,48 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
 
     case 'event_image_search_results_new':
+      foreach ($items as $delta => $item) {
+
+        $mime = file_get_mimetype($item['uri']);
+
+        if ($mime == 'image/svg+xml') {
+
+          $path = drupal_realpath($item['uri']);
+          if (file_exists($path)) {
+            $classes = array('svg-object','svg-image','img-responsive');
+
+            $attrs = array(
+                'class' => $classes
+            );
+            $attrs['data'] = file_create_url($item['uri']);
+            $attrs['type'] = "image/svg+xml";
+
+            // $attrs['src'] = file_create_url($item['uri']);
+
+            $render_map = array(
+              //  '#theme' => 'image_formatter',
+              //  '#item' => $item,
+              //  '#image_style' => $display['settings']['image_style'],
+              //  '#path' => isset($uri) ? $uri : '',
+                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+            );
+          }
+
+          $element[$delta] = $render_map;
+
+        } else {
+          $element[$delta] = array(
+              '#theme' => 'image_formatter',
+              '#item' => $item,
+              '#image_style' => $display['settings']['image_style'],
+              '#path' => isset($uri) ? $uri : '',
+          );
+        }
+      }
+
+      break;
+
+    case 'svg_image_tester':
       foreach ($items as $delta => $item) {
 
         $mime = file_get_mimetype($item['uri']);
