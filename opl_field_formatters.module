@@ -90,6 +90,12 @@ function opl_field_formatters_field_formatter_info() {
       'settings' => array('image_style' => '', 'image_link' => ''),
     ),
 
+    'event_image_search_results_new' => array(
+      'label' => t('Event images in search results - using new categories'),
+      'field types' => array('image'),
+      'settings' => array('image_style' => '', 'image_link' => ''),
+    ),
+
   );
 }
 
@@ -100,7 +106,7 @@ function opl_field_formatters_field_formatter_settings_form($field, $instance, $
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-if ($display['type'] == 'event_image_search_results') {
+if ($display['type'] == 'event_image_search_results' || 'event_image_search_results_new') {
 
   $image_styles = image_style_options(FALSE, PASS_THROUGH);
   $element['image_style'] = array(
@@ -174,6 +180,14 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
               $term = $wrapper->taxonomy_vocabulary_21->value();
               $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
             }
+
+          break;
+        case 'event_image_search_results_new':
+          if (empty($items[$id])) {
+            $wrapper = entity_metadata_wrapper('node', $entity);
+            $term = $wrapper->field_category->value();
+            $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
+          }
 
           break;
       }
@@ -744,6 +758,48 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             );
           }
         }
+
+      break;
+
+    case 'event_image_search_results_new':
+      foreach ($items as $delta => $item) {
+
+        $mime = file_get_mimetype($item['uri']);
+
+        if ($mime == 'image/svg+xml') {
+
+          $path = drupal_realpath($item['uri']);
+          if (file_exists($path)) {
+            $classes = array('svg-object','svg-image','img-responsive');
+
+            $attrs = array(
+                'class' => $classes
+            );
+            $attrs['data'] = file_create_url($item['uri']);
+            $attrs['type'] = "image/svg+xml";
+
+            // $attrs['src'] = file_create_url($item['uri']);
+
+            $render_map = array(
+              //  '#theme' => 'image_formatter',
+              //  '#item' => $item,
+              //  '#image_style' => $display['settings']['image_style'],
+              //  '#path' => isset($uri) ? $uri : '',
+                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+            );
+          }
+
+          $element[$delta] = $render_map;
+
+        } else {
+          $element[$delta] = array(
+              '#theme' => 'image_formatter',
+              '#item' => $item,
+              '#image_style' => $display['settings']['image_style'],
+              '#path' => isset($uri) ? $uri : '',
+          );
+        }
+      }
 
       break;
 
