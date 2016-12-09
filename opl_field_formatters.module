@@ -666,12 +666,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       } else {
         $link = l($title, $path, $options);
       }
-
-      if (!$restricted && user_is_logged_in()) {
-        $element[0]['#markup'] = $link . '<div class="bookmark"><button class="btn">' . flag_create_link('bookmarks', $entity->nid) . '</button></div>';
-      } else {
+      
         $element[0]['#markup'] = $link;
-      }
+
       break;
 
     case 'site_announcement_icon':
