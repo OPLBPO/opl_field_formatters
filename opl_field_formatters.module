@@ -104,6 +104,10 @@ function opl_field_formatters_field_formatter_info() {
       'field types' => array('image'),
       'settings' => array('image_style' => '', 'image_link' => ''),
     ),
+    'external_event_status' => array(
+      'label' => t('External event status'),
+      'field types' => array('list_integer'),
+    ),
     'external_registration_link' => array(
       'label' => t('External registration link'),
       'field types' => array('link_field'),
@@ -119,7 +123,7 @@ function opl_field_formatters_field_formatter_settings_form($field, $instance, $
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-if ($display['type'] == 'event_image_search_results' || 'event_image_search_results_new') {
+if (($display['type'] == 'event_image_search_results') || ($display['type'] == 'event_image_search_results_new')) {
 
   $image_styles = image_style_options(FALSE, PASS_THROUGH);
   $element['image_style'] = array(
@@ -141,9 +145,8 @@ if ($display['type'] == 'event_image_search_results' || 'event_image_search_resu
       '#empty_option' => t('Nothing'),
       '#options' => $link_types,
   );
-
-  }
   return $element;
+  }
 }
 
 /**
@@ -151,32 +154,34 @@ if ($display['type'] == 'event_image_search_results' || 'event_image_search_resu
  */
 function opl_field_formatters_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
+  if ($display['type'] == 'event_image_search_results' || 'event_image_search_results_new') {
 
-  $summary = array();
+    $settings = $display['settings'];
 
-  $image_styles = image_style_options(FALSE, PASS_THROUGH);
-  // Unset possible 'No defined styles' option.
-  unset($image_styles['']);
-  // Styles could be lost because of enabled/disabled modules that defines
-  // their styles in code.
-  if (isset($image_styles[$settings['image_style']])) {
-    $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
+    $summary = array();
+
+    $image_styles = image_style_options(FALSE, PASS_THROUGH);
+    // Unset possible 'No defined styles' option.
+    unset($image_styles['']);
+    // Styles could be lost because of enabled/disabled modules that defines
+    // their styles in code.
+    if (isset($image_styles[$settings['image_style']])) {
+      $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
+    } else {
+      $summary[] = t('Original image');
+    }
+
+    $link_types = array(
+        'content' => t('Linked to content'),
+        'file' => t('Linked to file'),
+    );
+    // Display this setting only if image is linked.
+    if (isset($link_types[$settings['image_link']])) {
+      $summary[] = $link_types[$settings['image_link']];
+    }
+
+    return implode('<br />', $summary);
   }
-  else {
-    $summary[] = t('Original image');
-  }
-
-  $link_types = array(
-      'content' => t('Linked to content'),
-      'file' => t('Linked to file'),
-  );
-  // Display this setting only if image is linked.
-  if (isset($link_types[$settings['image_link']])) {
-    $summary[] = $link_types[$settings['image_link']];
-  }
-
-  return implode('<br />', $summary);
 }
 
 /**
@@ -869,6 +874,25 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       break;
 
+    case 'external_event_status' :
+      foreach ($items as $delta => $item) {
+        $text = '';
+        switch ($item['value']) {
+          case 1 :
+          break;
+          case 2 :
+            $text = '<span class="alert alert-danger">' . t('This event has been cancelled') . '</span>';
+          break;
+          case 3 :
+            $text = '<span class="alert alert-danger">' . t('This event is now sold out') . '</span>';
+          break;
+        }
+      }
+
+      $element[0]['#markup'] = $text;
+
+    break;
+
     case 'external_registration_link' :
       foreach ($items as $delta => $item) {
         $link = $item['display_url'];
@@ -1012,9 +1036,9 @@ function _opl_field_formatters_get_reservations(&$entity) {
     asort($sorted_dates);
 
     foreach ($sorted_dates as $sd => $sorted_date) {
-      $curdates[] = str_replace('h 00', 'h', format_date($sorted_date, 'long'));
+      $curdates = str_replace('h 00', 'h', format_date($sorted_date, 'long'));
       $loc_details[] = array(
-          'date' => $curdates[$sd],
+          'date' => $curdates,
           'room' => $meeting_room_node->title,
           'duration' => $reservation->field_event_duration[LANGUAGE_NONE][0]['value'] . ' ' . t('mins.'),
       );
