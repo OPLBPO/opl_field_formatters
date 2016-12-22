@@ -712,9 +712,8 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       global $user;
       $wrapper = entity_metadata_wrapper('node', $entity);
       $title = $wrapper->title_field->value();
-
+      $button_text = '';
       foreach ($items as $delta => $item) {
-        $button_text = '';
         switch ($item['value']) {
           case 0 :
             user_is_logged_in() ?
