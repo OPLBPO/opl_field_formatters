@@ -207,14 +207,16 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
         case 'event_image_search_results_new':
           $wrapper = entity_metadata_wrapper('node', $entity);
           $series = $wrapper->field_series_1->value();
-          foreach ($series as $delta => $series_ex) {
-            if ($series_ex->tid == 1554) {
-              $items[$id] = $series_ex->field_term_image[LANGUAGE_NONE];
+          if ($series) {
+            foreach ($series as $delta => $series_ex) {
+              if ($series_ex->tid == 1554) {
+                $items[$id] = $series_ex->field_term_image[LANGUAGE_NONE];
+              }
             }
           }
           if (empty($items[$id])) {
             $term = $wrapper->field_category->value();
-            if (!empty($term[0]->field_term_image[LANGUAGE_NONE])) {
+            if ($term && !empty($term[0]->field_term_image[LANGUAGE_NONE])) {
               $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
             }
           }
@@ -767,7 +769,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               //  '#item' => $item,
               //  '#image_style' => $display['settings']['image_style'],
               //  '#path' => isset($uri) ? $uri : '',
-                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+                '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
               );
             }
 
@@ -809,7 +811,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               //  '#item' => $item,
               //  '#image_style' => $display['settings']['image_style'],
               //  '#path' => isset($uri) ? $uri : '',
-                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+                '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
             );
           } else {
             $render_map = NULL;
