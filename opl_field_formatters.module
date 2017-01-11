@@ -205,15 +205,20 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
 
           break;
         case 'event_image_search_results_new':
+          $wrapper = entity_metadata_wrapper('node', $entity);
+          $series = $wrapper->field_series_1->value();
+          foreach ($series as $delta => $series_ex) {
+            if ($series_ex->tid == 1554) {
+              $items[$id] = $series_ex->field_term_image[LANGUAGE_NONE];
+            }
+          }
           if (empty($items[$id])) {
-            $wrapper = entity_metadata_wrapper('node', $entity);
             $term = $wrapper->field_category->value();
             if (!empty($term[0]->field_term_image[LANGUAGE_NONE])) {
               $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
             }
           }
-
-          break;
+        break;
       }
     }
   }
