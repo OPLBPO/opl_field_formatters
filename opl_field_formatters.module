@@ -36,8 +36,16 @@ function opl_field_formatters_field_formatter_info() {
       'label' => t('Branch title with address'),
       'field types' => array('entityreference'),
     ),
+    'branch_title_with_address_new' => array(
+      'label' => t('Branch title with address -- post booking update'),
+      'field types' => array('entityreference'),
+    ),
     'event_add_to_calendar' => array(
       'label' => t('OPL add event to calendar'),
+      'field types' => array('datestamp'),
+    ),
+    'event_add_to_calendar_new' => array(
+      'label' => t('OPL add event to calendar -- post booking update'),
       'field types' => array('datestamp'),
     ),
     'event_status_details' => array(
@@ -432,6 +440,35 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
 
       break;
+
+    case 'branch_title_with_address_new':
+      // dpm($items);
+      $link = '';
+      foreach ($items as $delta => $item) {
+        $nid = $item['target_id'];
+        $node = node_load($item['target_id']);
+        $address = $node->field_branch_location[LANGUAGE_NONE][0]['street'];
+        $room_info = _opl_field_formatters_get_bookings($entity);
+        $remaining = count($room_info);
+        if ($room_info) {
+          $room = $room_info[0]['room'];
+          $duration = $room_info[0]['duration'];
+
+          $link = l(
+                  $node->title,
+                  drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>
+            <div class="event-room">' . $room . '</div><div class="event-duration">' . $duration . '</div>';
+
+        } else {
+          $link = l(
+                  $node->title,
+                  drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>';
+        }
+
+        $element[$delta]['#markup'] = $link;
+      }
+
+      break;
     
     case 'event_add_to_calendar':
       $event_lang = $entity->language;
@@ -445,6 +482,25 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
       if ($sorted_dates && ($event_status <> 'cancelled')) {
         $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
+      } else {
+        $link = NULL;
+      }
+      $element[0]['#markup'] = $link;
+
+      break;
+
+    case 'event_add_to_calendar_new':
+      $event_lang = $entity->language;
+      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
+      $nid = $entity->nid;
+      $sorted_dates = array();
+      foreach ($items as $delta => $item) {
+        if ($item['value'] > time()) {
+          $sorted_dates[] = $item['value'];
+        }
+      }
+      if ($sorted_dates && ($event_status <> 'cancelled')) {
+        $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_new_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
       } else {
         $link = NULL;
       }
@@ -968,6 +1024,14 @@ function opl_field_formatters_menu() {
       'access arguments' => array('view', 1),
       'type' => MENU_CALLBACK,
   );
+  $items['node/%node/opl_new_add_to_calendar.ics'] = array(
+      'title' => t('Add to Calendar'),
+      'page callback' => 'opl_field_formatters_ics_download_new',
+      'page arguments' => array(1),
+      'access callback' => 'node_access',
+      'access arguments' => array('view', 1),
+      'type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
@@ -1034,6 +1098,63 @@ END:VCALENDAR";
   exit();
 }
 
+// For post booking update
+function opl_field_formatters_ics_download_new($node) {
+  global $language;
+  $lang = $language->language;
+
+  drupal_add_http_header('Content-Type','text/calendar; charset=utf-8;');
+  drupal_add_http_header('Content-Disposition','inline; filename="add_to_calendar.ics";');
+
+// 	$description = t("Read more at !link", array('!link' => url('node/' . $node->nid, array('absolute' => TRUE))));
+  $description = isset($node->body['en'][0]['safe_value']) ? $node->body['en'][0]['safe_value'] : $node->body[LANGUAGE_NONE][0]['safe_value'];
+  $created = date("Ymd\THis\Z",$node->created);
+  $bookings = opl_booking_load_by_nid($node->nid);
+  if (isset($bookings) && !empty($bookings)) {
+    $dates = array();
+    // $loc_details = array();
+    foreach ($bookings as $bid => $booking) {
+      $dates[] = $booking->field_reservation_date[LANGUAGE_NONE][0]['value'];
+    }
+  }
+  $title = $node->title;
+  $date_c = array();
+  $branch_id = $node->field_event_branch[LANGUAGE_NONE][0]['target_id'];
+  $branch = node_load($branch_id);
+  $branch_name = $branch->title;
+
+  foreach ($dates as $key => $value) {
+    if (isset($value) && !empty($value) && $value >= strtotime('today')) {
+      $date_c[] = $value;
+    }
+  }
+  $duration = $booking->field_event_duration[LANGUAGE_NONE][0]['value'];
+  $date_output = '';
+  foreach ($date_c as $did=>$date) {
+    $startdate = date("Ymd\THis",$date);
+    $enddate = date("Ymd\THis",($date + ($duration * 60)));
+    $date_output .= "BEGIN:VEVENT
+DTSTAMP:$created
+UID:event$node->nid-$did@biblioottawalibrary.ca
+ORGANIZER;CN=Ottawa Public Library:MAILTO:infoservice@biblioottawalibrary.ca
+DTSTART;TZID=America/Toronto:$startdate
+DTEND;TZID=America/Toronto:$enddate
+SUMMARY:$title
+DESCRIPTION:$description
+LOCATION:$branch_name
+SEQUENCE:0
+END:VEVENT\r\n";
+  }
+
+  print "BEGIN:VCALENDAR
+PRODID:-//Calendar//Calendar Event//EN
+VERSION:2.0
+METHOD:PUBLISH
+$date_output
+END:VCALENDAR";
+  exit();
+}
+
 /*
  * wrapper function around opl_reservation_load_by_nid
  */
@@ -1060,16 +1181,9 @@ function _opl_field_formatters_get_reservations(&$entity) {
         $todayf= strftime("%A %d %B %Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
       }
 
-      //if( strtotime($onlydate[0]) > strtotime($todayd)){
-      if ($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd))
+      if ($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
         $sorted_dates[] = $reservation->field_reservation_date[LANGUAGE_NONE][0]['value'];
-
-      //end
-//      $loc_details[] = array(
-//          'date' => str_replace('h 00', 'h', format_date($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'], 'long')),
-//          'room' => $meeting_room_node->title,
-//          'duration' => $reservation->field_event_duration[LANGUAGE_NONE][0]['value'] . ' ' . t('mins.'),
-//      );
+      }
     }
     asort($sorted_dates);
 
@@ -1085,4 +1199,44 @@ function _opl_field_formatters_get_reservations(&$entity) {
 
   }
     return $loc_details;
+}
+
+function _opl_field_formatters_get_bookings(&$entity) {
+  global $language;
+  $sorted_dates = array();
+  $curdates = array();
+  $bookings = opl_booking_load_by_nid($entity->nid);
+  $loc_details = array();
+
+  //if there's registrations and the event is not past, cancelled
+  if (isset($bookings) && !empty($bookings)) {
+    foreach ($bookings as $bid => $booking) {
+      $meeting_room_node = node_load($booking->field_resource[LANGUAGE_NONE][0]['target_id']);
+      //Test Getachew
+      $eventdate = format_date($booking->field_reservation_date[LANGUAGE_NONE][0]['value']);
+      $onlydate = explode(' - ', $eventdate);
+      $todayd= date("F d, Y");
+      if ($language->language == 'fr'){
+        setlocale(LC_ALL, 'fr_CA.utf8');
+        $todayf= strftime("%A %d %B %Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
+      }
+
+      if ($booking->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
+        $sorted_dates[] = $booking->field_reservation_date[LANGUAGE_NONE][0]['value'];
+      }
+    }
+    asort($sorted_dates);
+
+    foreach ($sorted_dates as $sd => $sorted_date) {
+      $curdates = str_replace('h 00', 'h', format_date($sorted_date, 'long'));
+      $loc_details[] = array(
+          'date' => $curdates,
+          'room' => $meeting_room_node->title,
+          'duration' => $booking->field_event_duration[LANGUAGE_NONE][0]['value'] . ' ' . t('mins.'),
+      );
+    }
+
+
+  }
+  return $loc_details;
 }
