@@ -1058,7 +1058,7 @@ function opl_field_formatters_ics_download($node) {
 // 	$description = t("Read more at !link", array('!link' => url('node/' . $node->nid, array('absolute' => TRUE))));
   $description = isset($node->body['en'][0]['safe_value']) ? $node->body['en'][0]['safe_value'] : $node->body[LANGUAGE_NONE][0]['safe_value'];
   $created = date("Ymd\THis\Z",$node->created);
-  $reservations = opl_reservation_load_by_nid($node->nid);
+  $reservations = opl_booking_load_by_event_nid($node->nid);
   if (isset($reservations) && !empty($reservations)) {
     $dates = array();
     // $loc_details = array();
@@ -1162,7 +1162,7 @@ END:VCALENDAR";
 }
 
 /*
- * wrapper function around opl_reservation_load_by_nid
+ * wrapper function around opl_booking_load_by_event_nid
  */
 
 //This will need to be updated or replaced after Frank's update from bookings-reservations-refactor branch
@@ -1171,7 +1171,7 @@ function _opl_field_formatters_get_reservations(&$entity) {
   global $language;
   $sorted_dates = array();
   $curdates = array();
-  $reservations = opl_reservation_load_by_nid($entity->nid);
+  $reservations = opl_booking_load_by_event_nid($entity->nid);
   $loc_details = array();
 
   //if there's registrations and the event is not past, cancelled
