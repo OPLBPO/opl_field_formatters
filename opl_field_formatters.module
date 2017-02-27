@@ -1229,7 +1229,7 @@ function _opl_field_formatters_get_bookings(&$entity) {
       }
 
       if ($booking->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
-        $sorted_dates[] = $booking->field_reservation_date[LANGUAGE_NONE][0]['value'];
+        $sorted_dates[] = $booking_wrapper->event_start_time->value();
       }
     }
     asort($sorted_dates);
