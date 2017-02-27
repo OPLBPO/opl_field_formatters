@@ -1218,8 +1218,9 @@ function _opl_field_formatters_get_bookings(&$entity) {
   if (isset($bookings) && !empty($bookings)) {
     foreach ($bookings as $bid => $booking) {
       $meeting_room_node = node_load($booking->field_resource[LANGUAGE_NONE][0]['target_id']);
+      $booking_wrapper('node', $booking);
+      $eventdate = format_date($booking_wrapper->event_start_time->value());
       //Test Getachew
-      $eventdate = format_date($booking->field_reservation_date[LANGUAGE_NONE][0]['value']);
       $onlydate = explode(' - ', $eventdate);
       $todayd= date("F d, Y");
       if ($language->language == 'fr'){
