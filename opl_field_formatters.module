@@ -1179,7 +1179,7 @@ function _opl_field_formatters_get_reservations(&$entity) {
     foreach ($reservations as $rid => $reservation) {
       $meeting_room_node = node_load($reservation->field_meeting_room[LANGUAGE_NONE][0]['target_id']);
       //Test Getachew
-      $booking_wrapper = entity_metadata_wrapper(('opl_booking', $reservation);
+      $booking_wrapper = entity_metadata_wrapper('opl_booking', $reservation);
       $eventdate = format_date($booking_wrapper->event_start_time->value());
       $onlydate = explode(' - ', $eventdate);
       $todayd= date("F d, Y");
