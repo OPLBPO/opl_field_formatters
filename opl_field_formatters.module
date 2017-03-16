@@ -1042,6 +1042,7 @@ function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $fiel
     if($date_count > 1) $html .= '<p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
     return $html;
   }
+  return;
 }
 
 /**
