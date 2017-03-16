@@ -234,6 +234,7 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
   }
 }
 
+
 /**
  * Implements hook_field_formatter_view().
  */
@@ -287,46 +288,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       break;
 
     case 'event_node_full_dates':
-      $event_lang = $entity->language;
-      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
-      $sorted_dates = array();
-      foreach ($items as $delta => $item) {
-        if ($item['value'] > time()) {
-          $sorted_dates[] = $item['value'];
-        }
-      }
-      // dpm($sorted_dates);
-      sort($sorted_dates);
-      $start_date = $sorted_dates[0];
+      $element[0]['#markup'] = _opl_field_formatter_event_node_full_dates($entity_type, $entity, $field, $instance, $langcode, $items, $display);
 
-      $date_count = count($sorted_dates);
-      if ($lang == 'en') {
-        if ($event_status == 'cancelled') {
-          $element[0]['#markup'] = '';
-        }
-        elseif ($date_count == 0) {
-          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
-        }
-        elseif ($date_count == 1) {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', ' l ') . format_date($sorted_dates[0], 'event_day') . t(' at ') . format_date($sorted_dates[0], 'event_time') . '</p>';
-        } else {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', ' l') . 's, ' . format_date($start_date, 'event_day') . t(' - ') . format_date($sorted_dates[$date_count - 1], 'event_day') . '<br/>' . format_date($sorted_dates[0], 'event_time') . '</p><p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
 
-        }
-      } else {
-        setlocale(LC_ALL, 'fr_CA.utf8');
-        if ($event_status == 'cancelled') {
-          $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
-        }
-        elseif ($date_count == 0) {
-          $element[0]['#markup'] = '<p>' . t('This event has passed.') . '</p>';
-        }
-        elseif ($date_count == 1) {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Le ' . format_date($sorted_dates[0], 'custom', ' l ') . format_date($sorted_dates[0], 'custom', 'j F') . t(' at ') . str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time')) . '</p>';
-        } else {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . 'Les ' . strtolower(trim(format_date($sorted_dates[0], 'custom', ' l'))) . 's, ' . format_date($start_date, 'custom', 'j F, Y') . t(' - ') . format_date($sorted_dates[$date_count - 1], 'custom', 'j F, Y') . '<br/>' . str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time')) . '</p>';
-        }
-      }
       break;
 
     case 'event_node_full_date_list':
@@ -1014,7 +978,71 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
   return $element;
 }
 
+/**
+ * Returns a formatted event date statement
+ * @param $entity_type
+ * @param $entity
+ * @param $field
+ * @param $instance
+ * @param $langcode
+ * @param $items
+ * @param $display
+ * @return string
+ */
+function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $language;
+  $lang = $language->language;
+  $event_lang = $entity->language;
+  $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
+  if ($event_status == 'cancelled') {
+    return '';
+  }
+  $sorted_dates = array();
+  foreach ($items as $delta => $item) {
+    if ($item['value'] > time()) $sorted_dates[] = $item['value'];
+  }
+  $date_count = count($sorted_dates);
+  if ($date_count == 0) {
+    return '<p>' . t('This event has passed.') . '</p>';
+  }
+  else {
+    $html = '';
+    sort($sorted_dates);
+    $start_date = $sorted_dates[0];
 
+    if ($lang == 'en') {
+      if ($date_count == 1) {
+        $html =
+          format_date($sorted_dates[0], 'custom', ' l ') .
+          format_date($sorted_dates[0], 'event_day') . t(' at ') .
+          format_date($sorted_dates[0], 'event_time');
+      } else {
+        $html =
+          format_date($sorted_dates[0], 'custom', ' l') . 's, ' .
+          format_date($start_date, 'event_day') . t(' - ') .
+          format_date($sorted_dates[$date_count - 1], 'event_day') . '<br/>' .
+          format_date($sorted_dates[0], 'event_time');
+      }
+    } else {
+      setlocale(LC_ALL, 'fr_CA.utf8');
+      if ($date_count == 1) {
+        $html =
+          'Le ' . format_date($sorted_dates[0], 'custom', ' l ') .
+          format_date($sorted_dates[0], 'custom', 'j F') . t(' at ') .
+          str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
+      } else {
+        $html =
+          'Les ' . strtolower(trim(format_date($sorted_dates[0], 'custom', ' l'))) . 's, ' .
+          format_date($start_date, 'custom', 'j F, Y') . t(' - ') .
+          format_date($sorted_dates[$date_count - 1], 'custom', 'j F, Y') . '<br/>' .
+          str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
+      }
+    }
+    $html = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . $html . '</p>';
+    if($date_count > 1) $html .= '<p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
+    return $html;
+  }
+}
 
 /**
  * Implements hook_menu().
