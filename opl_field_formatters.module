@@ -916,6 +916,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       foreach ($items as $delta => $item) {
         switch ($item['value']) {
           case 1 :
+            $text = NULL;
           break;
           case 2 :
             $text = '<span class="alert alert-danger">' . t('This event has been cancelled') . '</span>';
@@ -925,8 +926,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           break;
         }
       }
-
-      $element[0]['#markup'] = $text;
+      if ($text) {
+        $element[0]['#markup'] = $text;
+      }
 
     break;
 
@@ -969,7 +971,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             break;
           }
         }
-        $element[0]['#markup'] = implode(', ', $display_terms);
+        if ($display_terms) {
+          $element[0]['#markup'] = implode(', ', $display_terms);
+        }
 
     break;
 
