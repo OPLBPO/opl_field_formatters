@@ -972,7 +972,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           }
         }
         if ($display_terms) {
-          $element[0]['#markup'] = implode(', ', $display_terms);
+          $element[0]['#markup'] = implode(' ', $display_terms);
         }
 
     break;
