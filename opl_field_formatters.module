@@ -1213,7 +1213,7 @@ function _opl_field_formatters_get_reservations(&$entity) {
       $meeting_room_node = node_load($reservation->field_meeting_room[LANGUAGE_NONE][0]['target_id']);
       //Test Getachew
       $booking_wrapper = entity_metadata_wrapper('opl_booking', $reservation);
-      $eventdate = format_date($booking_wrapper->event_start_time->value());
+      $eventdate = ''; //format_date($booking_wrapper->event_start_time->value());
       $onlydate = explode(' - ', $eventdate);
       $todayd= date("F d, Y");
       if ($language->language == 'fr'){
@@ -1222,7 +1222,7 @@ function _opl_field_formatters_get_reservations(&$entity) {
       }
 
       if ($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
-        $sorted_dates[] = $booking_wrapper->event_start_time->value();
+        $sorted_dates[] = '';//$booking_wrapper->event_start_time->value();
       }
     }
     asort($sorted_dates);
@@ -1253,7 +1253,7 @@ function _opl_field_formatters_get_bookings(&$entity) {
     foreach ($bookings as $bid => $booking) {
       $meeting_room_node = node_load($booking->field_resource[LANGUAGE_NONE][0]['target_id']);
       $booking_wrapper = entity_metadata_wrapper('opl_booking', $booking);
-      $eventdate = format_date($booking_wrapper->event_start_time->value());
+      $eventdate = '';//format_date($booking_wrapper->event_start_time->value());
       //Test Getachew
       $onlydate = explode(' - ', $eventdate);
       $todayd= date("F d, Y");
@@ -1263,7 +1263,9 @@ function _opl_field_formatters_get_bookings(&$entity) {
       }
 
       if ($booking->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
-        $sorted_dates[] = $booking_wrapper->event_start_time->value();
+        if(array_key_exists("event_start_time",$booking_wrapper->getPropertyInfo() )) {
+          $sorted_dates[] =  $booking_wrapper->event_start_time->value();
+        }
       }
     }
     asort($sorted_dates);
