@@ -12,118 +12,88 @@
 
 function opl_field_formatters_field_formatter_info() {
   return array(
-    'event_card_dates' => array(
-      'label' => t('Event card dates'),
-      'field types' => array('datestamp'),
-    ),
-    'event_node_full_dates' => array(
-      'label' => t('Event node full dates'),
-      'field types' => array('datestamp'),
-    ),
-    'event_node_full_date_list' => array(
-      'label' => t('Event node list of all dates'),
-      'field types' => array('datestamp'),
-    ),
-    'blog_category_search_link' => array(
-      'label' => t('Blog category search API link-back'),
-      'field types' => array('entityreference'),
-    ),
-    'blog_category_search_link_new' => array(
-      'label' => t('New blog detail page category link'),
-      'field types' => array('entityreference'),
-    ),
-    'branch_title_with_address' => array(
-      'label' => t('Branch title with address'),
-      'field types' => array('entityreference'),
-    ),
-    'branch_title_with_address_new' => array(
-      'label' => t('Branch title with address -- post booking update'),
-      'field types' => array('entityreference'),
-    ),
-    'event_add_to_calendar' => array(
-      'label' => t('OPL add event to calendar'),
-      'field types' => array('datestamp'),
-    ),
-    'event_add_to_calendar_new' => array(
-      'label' => t('OPL add event to calendar -- post booking update'),
-      'field types' => array('datestamp'),
-    ),
-    'event_status_details' => array(
-      'label' => t('Event status details'),
-      'field types' => array('list_boolean'),
-    ),
-    'event_card_subjects' => array(
-      'label' => t('Event card subject headings'),
-      'field types' => array('entityreference'),
-    ),
-    'event_card_subjects_new' => array(
-      'label' => t('New event card subject headings'),
-      'field types' => array('entityreference'),
+      'event_card_dates' => array(
+          'label' => t('Event card dates'),
+          'field types' => array('datestamp'),
       ),
-    'event_detail_subjects_new' => array(
-      'label' => t('New event detail page subject headings'),
-      'field types' => array('entityreference'),
-    ),
-    'blog_card_subjects' => array(
-      'label' => t('Blog card subject headings'),
-      'field types' => array('entityreference'),
-    ),
-    'blog_card_subjects_new' => array(
-      'label' => t('New blog card subject headings'),
-      'field types' => array('entityreference'),
-    ),
-    'formatted_database_link' => array(
-      'label' => t('Formatted database link with IP check'),
-      'field types' => array('link_field'),
-    ),
-    'database_subjects' => array(
-      'label' => t('Database subjects'),
-      'field types' => array('entityreference'),
-    ),
-    'database_subjects_new' => array(
-      'label' => t('New database subjects'),
-      'field types' => array('entityreference'),
-    ),
-    'site_announcement_icon' => array(
-      'label' => t('Site announcement type and icon'),
-      'field types' => array('list_text'),
-    ),
-    'equipment_booking_link' => array(
-      'label' => t('Equipment booking link'),
-      'field types' => array('list_text'),
+      'event_node_full_dates' => array(
+          'label' => t('Event node full dates'),
+          'field types' => array('datestamp'),
       ),
-    'event_image_search_results' => array(
-      'label' => t('Event images in search results'),
-      'field types' => array('image'),
-      'settings' => array('image_style' => '', 'image_link' => ''),
-    ),
-
-    'event_image_search_results_new' => array(
-      'label' => t('Event images in search results - using new categories'),
-      'field types' => array('image'),
-      'settings' => array('image_style' => '', 'image_link' => ''),
-    ),
-    'external_event_location' => array(
-      'label' => t('External event location with link'),
-      'field types' => array('text'),
-    ),
-    'svg_image_tester' => array(
-      'label' => t('SVG image test formatter'),
-      'field types' => array('image'),
-      'settings' => array('image_style' => '', 'image_link' => ''),
-    ),
-    'external_event_status' => array(
-      'label' => t('External event status'),
-      'field types' => array('list_integer'),
-    ),
-    'external_registration_link' => array(
-      'label' => t('External registration link'),
-      'field types' => array('link_field'),
-    ),
-    'event_series_link' => array(
-      'label' => t('Link to event series'),
-      'field types' => array('entityreference','taxonomy_term_reference'),
-    )
+      'event_node_full_date_list' => array(
+          'label' => t('Event node list of all dates'),
+          'field types' => array('datestamp'),
+      ),
+      'blog_category_search_link_new' => array(
+          'label' => t('New blog detail page category link'),
+          'field types' => array('entityreference'),
+      ),
+      'branch_title_with_address_new' => array(
+          'label' => t('Branch title with address -- post booking update'),
+          'field types' => array('entityreference'),
+      ),
+      'event_add_to_calendar_new' => array(
+          'label' => t('OPL add event to calendar -- post booking update'),
+          'field types' => array('datestamp'),
+      ),
+      'event_status_details' => array(
+          'label' => t('Event status details'),
+          'field types' => array('list_boolean'),
+      ),
+      'event_card_subjects_new' => array(
+          'label' => t('New event card subject headings'),
+          'field types' => array('entityreference'),
+      ),
+      'event_detail_subjects_new' => array(
+          'label' => t('New event detail page subject headings'),
+          'field types' => array('entityreference'),
+      ),
+      'blog_card_subjects_new' => array(
+          'label' => t('New blog card subject headings'),
+          'field types' => array('entityreference'),
+      ),
+      'formatted_database_link' => array(
+          'label' => t('Formatted database link with IP check'),
+          'field types' => array('link_field'),
+      ),
+      'database_subjects_new' => array(
+          'label' => t('New database subjects'),
+          'field types' => array('entityreference'),
+      ),
+      'site_announcement_icon' => array(
+          'label' => t('Site announcement type and icon'),
+          'field types' => array('list_text'),
+      ),
+      'equipment_booking_link' => array(
+          'label' => t('Equipment booking link'),
+          'field types' => array('list_text'),
+      ),
+      'event_image_search_results_new' => array(
+          'label' => t('Event images in search results - using new categories'),
+          'field types' => array('image'),
+          'settings' => array('image_style' => '', 'image_link' => ''),
+      ),
+      'external_event_location' => array(
+          'label' => t('External event location with link'),
+          'field types' => array('text'),
+      ),
+      'svg_image_tester' => array(
+          'label' => t('SVG image test formatter'),
+          'field types' => array('image'),
+          'settings' => array('image_style' => '', 'image_link' => ''),
+      ),
+      'external_event_status' => array(
+          'label' => t('External event status'),
+          'field types' => array('list_integer'),
+      ),
+      'external_registration_link' => array(
+          'label' => t('External registration link'),
+          'field types' => array('link_field'),
+      ),
+      'event_series_link' => array(
+          'label' => t('Link to event series'),
+          'field types' => array('entityreference', 'taxonomy_term_reference'),
+      )
 
   );
 }
@@ -135,29 +105,29 @@ function opl_field_formatters_field_formatter_settings_form($field, $instance, $
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-if (($display['type'] == 'event_image_search_results') || ($display['type'] == 'event_image_search_results_new')) {
+  if ($display['type'] == 'event_image_search_results_new') {
 
-  $image_styles = image_style_options(FALSE, PASS_THROUGH);
-  $element['image_style'] = array(
-      '#title' => t('Image style'),
-      '#type' => 'select',
-      '#default_value' => $settings['image_style'],
-      '#empty_option' => t('None (original image)'),
-      '#options' => $image_styles,
-  );
+    $image_styles = image_style_options(FALSE, PASS_THROUGH);
+    $element['image_style'] = array(
+        '#title' => t('Image style'),
+        '#type' => 'select',
+        '#default_value' => $settings['image_style'],
+        '#empty_option' => t('None (original image)'),
+        '#options' => $image_styles,
+    );
 
-  $link_types = array(
-      'content' => t('Content'),
-      'file' => t('File'),
-  );
-  $element['image_link'] = array(
-      '#title' => t('Link image to'),
-      '#type' => 'select',
-      '#default_value' => $settings['image_link'],
-      '#empty_option' => t('Nothing'),
-      '#options' => $link_types,
-  );
-  return $element;
+    $link_types = array(
+        'content' => t('Content'),
+        'file' => t('File'),
+    );
+    $element['image_link'] = array(
+        '#title' => t('Link image to'),
+        '#type' => 'select',
+        '#default_value' => $settings['image_link'],
+        '#empty_option' => t('Nothing'),
+        '#options' => $link_types,
+    );
+    return $element;
   }
 }
 
@@ -166,7 +136,7 @@ if (($display['type'] == 'event_image_search_results') || ($display['type'] == '
  */
 function opl_field_formatters_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
-  if ($display['type'] == 'event_image_search_results' || 'event_image_search_results_new') {
+  if ($display['type'] == 'event_image_search_results_new') {
 
     $settings = $display['settings'];
 
@@ -179,7 +149,8 @@ function opl_field_formatters_field_formatter_settings_summary($field, $instance
     // their styles in code.
     if (isset($image_styles[$settings['image_style']])) {
       $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
-    } else {
+    }
+    else {
       $summary[] = t('Original image');
     }
 
@@ -199,19 +170,10 @@ function opl_field_formatters_field_formatter_settings_summary($field, $instance
 /**
  * Implements hook_field_formatter_prepare_view()
  */
-
 function opl_field_formatters_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
   foreach ($entities as $id => $entity) {
     foreach ($displays as $display) {
       switch ($display['type']) {
-        case 'event_image_search_results':
-            if (empty($items[$id])) {
-              $wrapper = entity_metadata_wrapper('node', $entity);
-              $term = $wrapper->taxonomy_vocabulary_21->value();
-              $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
-            }
-
-          break;
         case 'event_image_search_results_new':
           $wrapper = entity_metadata_wrapper('node', $entity);
           $series = $wrapper->field_series_1->value();
@@ -228,7 +190,7 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
               $items[$id] = $term[0]->field_term_image[LANGUAGE_NONE];
             }
           }
-        break;
+          break;
       }
     }
   }
@@ -238,7 +200,6 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
 /**
  * Implements hook_field_formatter_view().
  */
-
 function opl_field_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   global $language;
   $lang = $language->language;
@@ -267,10 +228,12 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         elseif ($date_count == 1) {
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', 'l M j, Y') . t(' at ') . format_date($sorted_dates[0], 'event_time') . '</p>';
-        } else {
-          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', 'l M j, Y') . t(' at ') . format_date($sorted_dates[0], 'event_time') . ' /' . t(' until ') . format_date($sorted_dates[$date_count - 1], 'event_day')  . '</p>';
         }
-      } else {
+        else {
+          $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', 'l M j, Y') . t(' at ') . format_date($sorted_dates[0], 'event_time') . ' /' . t(' until ') . format_date($sorted_dates[$date_count - 1], 'event_day') . '</p>';
+        }
+      }
+      else {
         setlocale(LC_ALL, 'fr_CA.utf8');
         if ($event_status == 'cancelled') {
           $element[0]['#markup'] = '<p>' . t('Sorry, this event has been cancelled.') . '</p>';
@@ -281,7 +244,8 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         elseif ($date_count == 1) {
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . ' ' . format_date($sorted_dates[0], 'custom', 'l j F, Y') . t(' at ') . str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time')) . '</p>';
 
-        } else {
+        }
+        else {
           $element[0]['#markup'] = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . format_date($sorted_dates[0], 'custom', 'l j F, Y') . ' à ' . str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time')) . ' /' . ' jusqu\'à ' . format_date($sorted_dates[$date_count - 1], 'custom', 'j F') . '</p>';
         }
       }
@@ -309,8 +273,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       foreach ($sorted_dates as $key => $date) {
         if ($lang == 'en') {
-          $formatted_date[] = format_date($date,'short');
-        } else {
+          $formatted_date[] = format_date($date, 'short');
+        }
+        else {
           setlocale(LC_ALL, 'fr_CA.utf8');
           $formatted_date[] = str_replace('h00', 'h', format_date($date, 'custom', 'j F, Y G\hi'));
         }
@@ -325,12 +290,14 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         elseif ($date_count <= 1) {
           $element[0]['#markup'] = '';
-        } else {
+        }
+        else {
           $element[0]['#markup'] = '<button type="button" class="btn event-dates" data-toggle="collapse" data-target="#dates">' . t('View all upcoming dates') . '</button>';
           $element[0]['#markup'] .= '<ul id="dates" class="collapse"><li>' . implode('</li><li>', $formatted_date) . '</li></ul>';
 
         }
-      } else {
+      }
+      else {
         if (($event_status == 'cancelled') || $date_count <=1) {
           $element[0]['#markup'] = '';
         }
@@ -341,27 +308,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
       break;
 
-    case 'blog_category_search_link':
-     // dpm($items);
-      foreach ($items as $delta => $item) {
-        $tid = $item['target_id'];
-        $term = taxonomy_term_load($tid);
-        $translated_term = i18n_taxonomy_localize_terms($term);
-
-        $display_terms = l(
-            $translated_term->name,
-            'staff-blogs',
-            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
-            )));
-
-
-        $element[$delta]['#markup'] = $display_terms;
-      }
-
-      break;
-
     case 'blog_category_search_link_new':
-      // dpm($items);
       foreach ($items as $delta => $item) {
         $tid = $item['target_id'];
         $term = taxonomy_term_load($tid);
@@ -369,44 +316,14 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         $display_terms = l(
             $term->name,
             'staff-blogs',
-            array('query' => array('f[' . $delta . ']'=>'field_category:'.$tid
+            array('query' => array('f[' . $delta . ']' => 'field_category:' . $tid
             )));
         $element[$delta]['#markup'] = $display_terms;
       }
 
       break;
 
-    case 'branch_title_with_address':
-     // dpm($items);
-      $link = '';
-      foreach ($items as $delta => $item) {
-        $nid = $item['target_id'];
-        $node = node_load($item['target_id']);
-        $address = $node->field_branch_location[LANGUAGE_NONE][0]['street'];
-        $room_info = _opl_field_formatters_get_reservations($entity);
-        $remaining = count($room_info);
-        if ($room_info) {
-          $room = $room_info[0]['room'];
-          $duration = $room_info[0]['duration'];
-
-        $link = l(
-            $node->title,
-            drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>
-            <div class="event-room">' . $room . '</div><div class="event-duration">' . $duration . '</div>';
-
-        } else {
-        $link = l(
-          $node->title,
-          drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>';
-        }
-
-        $element[$delta]['#markup'] = $link;
-      }
-
-      break;
-
     case 'branch_title_with_address_new':
-      // dpm($items);
       $link = '';
       foreach ($items as $delta => $item) {
         $nid = $item['target_id'];
@@ -423,7 +340,8 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
                   drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>
             <div class="event-room">' . $room . '</div><div class="event-duration">' . $duration . '</div>';
 
-        } else {
+        }
+        else {
           $link = l(
                   $node->title,
                   drupal_get_path_alias('node/' . $nid, $lang)) . '<br/><div class="street-address">' . $address . '</div>';
@@ -431,25 +349,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
         $element[$delta]['#markup'] = $link;
       }
-
-      break;
-    
-    case 'event_add_to_calendar':
-      $event_lang = $entity->language;
-      $event_status = isset($entity->field_event_status[$event_lang][0]['value']) ? $entity->field_event_status[$event_lang][0]['value'] : NULL;
-      $nid = $entity->nid;
-      $sorted_dates = array();
-      foreach ($items as $delta => $item) {
-        if ($item['value'] > time()) {
-            $sorted_dates[] = $item['value'];
-        }
-      }
-      if ($sorted_dates && ($event_status <> 'cancelled')) {
-        $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
-      } else {
-        $link = NULL;
-      }
-      $element[0]['#markup'] = $link;
 
       break;
 
@@ -464,8 +363,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
       }
       if ($sorted_dates && ($event_status <> 'cancelled')) {
-        $link = '<h4>' .l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_new_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
-      } else {
+        $link = '<h4>' . l(t('Add this event to your calendar'), 'node/' . $nid . '/opl_new_add_to_calendar.ics', array('attributes' => array('class' => array('label label-primary')))) . '</h4>';
+      }
+      else {
         $link = NULL;
       }
       $element[0]['#markup'] = $link;
@@ -477,8 +377,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       $reservations = opl_booking_load_by_event_nid($entity->nid);
       if (isset($reservations) && (count($reservations) == 1)) {
         $reservation = array_values($reservations);
-        $event_status = opl_registration_event_status($entity,$reservation[0]);
-      } else {
+        $event_status = opl_registration_event_status($entity, $reservation[0]);
+      }
+      else {
         $event_status = opl_registration_event_status($entity);
       }
       $reg_start = str_replace('h 00', 'h', format_date($entity->field_registration_open[LANGUAGE_NONE][0]['value'], 'long'));
@@ -492,7 +393,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
           break;
         case 'open' :
           $user->uid == 0 ? $status_text = '<h3>' . l(t('Log in and register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>'
-           : $status_text = '<h3>' . l(t('Register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>';
+              : $status_text = '<h3>' . l(t('Register'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-success')))) . '</h3>';
           break;
         case 'waitlist' :
           $status_text = '<h3>' . l(t('Add me to the waiting list'), 'opluser/login', array('query' => array('nid' => $entity->nid), 'attributes' => array('class' => array('btn btn-warning')))) . '</h3>';
@@ -509,30 +410,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
 
       $element[0]['#markup'] = $status_text;
-
-      break;
-
-    case 'event_card_subjects':
-      $display_terms = array();
-      foreach ($items as $delta => $item) {
-        $tid = $item['target_id'];
-        $term = taxonomy_term_load($tid);
-
-        if ($term) {
-          $translated_term = i18n_taxonomy_localize_terms($term);
-
-          $display_terms[] = l(
-              $translated_term->name,
-              'program',
-              array('query' => array('f[' . $delta . ']' => 'taxonomy_vocabulary_21:' . $tid
-              )));
-        }
-        if ($delta == 2) {
-          break;
-        }
-      }
-
-      $element[0]['#markup'] = '<header>' . t('Events') . ' / ' . implode(', ', $display_terms) . '</header>';
 
       break;
 
@@ -578,24 +455,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       break;
 
-    case 'blog_card_subjects':
-      $display_terms = array();
-      foreach ($items as $delta => $item) {
-        $tid = $item['target_id'];
-        $term = taxonomy_term_load($tid);
-        $translated_term = i18n_taxonomy_localize_terms($term);
-
-        $display_terms[] = l(
-            $translated_term->name,
-            'staff-blogs',
-            array('query' => array('f[' . $delta . ']'=>'taxonomy_vocabulary_21:'.$tid
-            )));
-      }
-
-      $element[0]['#markup'] = '<header>' . l(t('Staff Blog'), 'staff-blogs') . ' / ' . implode(', ', $display_terms) . '</header>';
-
-      break;
-
     case 'blog_card_subjects_new':
       $display_terms = array();
       foreach ($items as $delta => $item) {
@@ -605,7 +464,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         $display_terms[] = l(
             $term->name,
             'staff-blogs',
-            array('query' => array('f[' . $delta . ']'=>'field_category:'.$tid
+            array('query' => array('f[' . $delta . ']' => 'field_category:' . $tid
             )));
         if ($delta == 2) {
           break;
@@ -613,32 +472,6 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
 
       $element[0]['#markup'] = '<header>' . l(t('Staff Blog'), 'staff-blogs') . ' / ' . implode(', ', $display_terms) . '</header>';
-
-      break;
-
-    case 'database_subjects':
-      $display_terms = array();
-      foreach ($items as $delta => $item) {
-        $tid = $item['target_id'];
-        $term = taxonomy_term_load($tid);
-        $translated_term = i18n_taxonomy_localize_terms($term);
-
-        $display_terms[] = l(
-            $translated_term->name,
-            'databases/search-all',
-            array('query' => array('subject'=>$tid
-            )));
-
-        $subject_output = '<ul class="database-subjects">';
-        foreach($display_terms as $dt) {
-          $subject_output .= '<li>' . $dt . '</li>';
-        }
-        $subject_output .= '</ul>';
-
-
-      }
-
-      $element[0]['#markup'] = $subject_output;
 
       break;
 
@@ -651,11 +484,11 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         $display_terms[] = l(
             $term->name,
             'databases/search-all',
-            array('query' => array('subject'=>$tid
+            array('query' => array('subject' => $tid
             )));
 
         $subject_output = '<ul class="database-subjects">';
-        foreach($display_terms as $dt) {
+        foreach ($display_terms as $dt) {
           $subject_output .= '<li>' . $dt . '</li>';
         }
         $subject_output .= '</ul>';
@@ -674,7 +507,15 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
       foreach ($items as $delta => $item) {
         $path = 'https://ezproxy.biblioottawalibrary.ca/login';
-        $query = isset($item['query']['qurl']) ? $item['query']['qurl'] : NULL;
+        $query = NULL;
+        if (isset($item['query']['qurl'])) {
+          $query_key = 'qurl';
+          $query = $item['query']['qurl'];
+        }
+        if (isset($item['query']['custom_query'])) {
+          $query_key = 'custom_query';
+          $query = $item['query']['custom_query'];
+        }
         if ($item['url'] <> $path) {
           $path = $item['url'];
         }
@@ -690,33 +531,35 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               'html' => TRUE,
               'attributes' => array(
                   'class' => array('btn', 'btn-primary'),
-                  'title' => $tooltip . ' ' . $title,
-                  'data-toggle' => 'tooltip',
-                  'data-placement' => 'bottom',
+                 // 'title' => $tooltip . ' ' . $title,
+                 // 'data-toggle' => 'tooltip',
+                 // 'data-placement' => 'bottom',
               ),
           );
-        } else {
+        }
+        else {
           $options = array(
               'restricted' => $restricted,
-              'query' => array('qurl' => $query),
+              'query' => array($query_key => $query),
               'html' => TRUE,
               'attributes' => array(
                   'class' => array('btn', 'btn-primary'),
-                  'title' => $tooltip . ' ' . $title,
-                  'data-toggle' => 'tooltip',
-                  'data-placement' => 'bottom',
+                 // 'title' => $tooltip . ' ' . $title,
+                 // 'data-toggle' => 'tooltip',
+                 // 'data-placement' => 'bottom',
               ),
           );
         }
       }
 
-      if(module_exists('opl_ips')) {
+      if (module_exists('opl_ips')) {
         $link = wl($title, $path, $options);
-      } else {
+      }
+      else {
         $link = l($title, $path, $options);
       }
-      
-        $element[0]['#markup'] = $link;
+
+      $element[0]['#markup'] = $link;
 
       break;
 
@@ -750,66 +593,24 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         switch ($item['value']) {
           case 0 :
             user_is_logged_in() ?
-              $button_text = l(t('Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn btn-success'), 'aria-label' => t('Book: ') . $title))) :
-              $button_text = l(t('Login and Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn,btn-success'), 'aria-label' => t('Book: ') . $title)));
+                $button_text = l(t('Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn btn-success'), 'aria-label' => t('Book: ') . $title))) :
+                $button_text = l(t('Login and Book'), 'opluser/login', array('query' => array('sch' => $entity->nid), 'attributes' => array('class' => array('btn,btn-success'), 'aria-label' => t('Book: ') . $title)));
             break;
 
           case 1 :
             $button_qualifier = t('7-day loans, not holdable');
             $button_text = '<p class="alert alert-warning">' . $button_qualifier . '</p>' .
-                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' ' . t('(Link is external)'))));
+                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'), 'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' ' . t('(Link is external)'))));
             break;
 
           case 2 :
             $button_qualifier = t('2-hour loan, must remain in branch');
             $button_text = '<p class="alert alert-warning">' . $button_qualifier . '</p>' .
-                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'),'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' '. t('(Link is external)'))));
+                l(t('Check availability'), 'https://ottawa.bibliocommons.com/search', array('query' => array('custom_query' => 'title:(' . $title . ')'), 'attributes' => array('class' => array('btn btn-info'), 'aria-label' => t('Check availability for: ') . $title . ', ' . t('which is available for ') . $button_qualifier . ' ' . t('(Link is external)'))));
             break;
         }
       }
       $element[0]['#markup'] = $button_text;
-
-      break;
-
-    case 'event_image_search_results':
-        foreach ($items as $delta => $item) {
-
-          $mime = file_get_mimetype($item['uri']);
-
-          if ($mime == 'image/svg+xml') {
-
-            $path = drupal_realpath($item['uri']);
-            if (file_exists($path)) {
-              $classes = array('svg-object','svg-image','img-responsive');
-
-              $attrs = array(
-                  'class' => $classes
-              );
-              $attrs['data'] = file_create_url($item['uri']);
-              $attrs['type'] = "image/svg+xml";
-
-             // $attrs['src'] = file_create_url($item['uri']);
-
-              $render_map = array(
-              //  '#theme' => 'image_formatter',
-              //  '#item' => $item,
-              //  '#image_style' => $display['settings']['image_style'],
-              //  '#path' => isset($uri) ? $uri : '',
-                '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
-              );
-            }
-
-            $element[$delta] = $render_map;
-
-          } else {
-            $element[$delta] = array(
-              '#theme' => 'image_formatter',
-              '#item' => $item,
-              '#image_style' => $display['settings']['image_style'],
-              '#path' => isset($uri) ? $uri : '',
-            );
-          }
-        }
 
       break;
 
@@ -822,35 +623,31 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
           $path = drupal_realpath($item['uri']);
           if (file_exists($path)) {
-            $classes = array('svg-object','svg-image','img-responsive');
+            $classes = array('svg-object', 'svg-image', 'img-responsive');
 
             $attrs = array(
-                'class' => $classes
+              'class' => $classes
             );
             $attrs['data'] = file_create_url($item['uri']);
             $attrs['type'] = "image/svg+xml";
 
-            // $attrs['src'] = file_create_url($item['uri']);
-
             $render_map = array(
-              //  '#theme' => 'image_formatter',
-              //  '#item' => $item,
-              //  '#image_style' => $display['settings']['image_style'],
-              //  '#path' => isset($uri) ? $uri : '',
-                '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
+              '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
             );
-          } else {
+          }
+          else {
             $render_map = NULL;
           }
 
           $element[$delta] = $render_map;
 
-        } else {
+        }
+        else {
           $element[$delta] = array(
-              '#theme' => 'image_formatter',
-              '#item' => $item,
-              '#image_style' => $display['settings']['image_style'],
-              '#path' => isset($uri) ? $uri : '',
+            '#theme' => 'image_formatter',
+            '#item' => $item,
+            '#image_style' => $display['settings']['image_style'],
+            '#path' => isset($uri) ? $uri : '',
           );
         }
       }
@@ -864,10 +661,11 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       }
       if ($link) {
         $element[0]['#markup'] = l($loc_name, $link);
-      } else {
+      }
+      else {
         $element[0]['#markup'] = $loc_name;
       }
-    break;
+      break;
 
     case 'svg_image_tester':
       foreach ($items as $delta => $item) {
@@ -878,7 +676,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
           $path = drupal_realpath($item['uri']);
           if (file_exists($path)) {
-            $classes = array('svg-object','svg-image','img-responsive');
+            $classes = array('svg-object', 'svg-image', 'img-responsive');
 
             $attrs = array(
                 'class' => $classes
@@ -886,25 +684,20 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             $attrs['data'] = file_create_url($item['uri']);
             $attrs['type'] = "image/svg+xml";
 
-            // $attrs['src'] = file_create_url($item['uri']);
-
             $render_map = array(
-              //  '#theme' => 'image_formatter',
-              //  '#item' => $item,
-              //  '#image_style' => $display['settings']['image_style'],
-              //  '#path' => isset($uri) ? $uri : '',
-                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+              '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
             );
           }
 
           $element[$delta] = $render_map;
 
-        } else {
+        }
+        else {
           $element[$delta] = array(
-              '#theme' => 'image_formatter',
-              '#item' => $item,
-              '#image_style' => $display['settings']['image_style'],
-              '#path' => isset($uri) ? $uri : '',
+            '#theme' => 'image_formatter',
+            '#item' => $item,
+            '#image_style' => $display['settings']['image_style'],
+            '#path' => isset($uri) ? $uri : '',
           );
         }
       }
@@ -917,26 +710,26 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         switch ($item['value']) {
           case 1 :
             $text = NULL;
-          break;
+            break;
           case 2 :
             $text = '<span class="alert alert-danger">' . t('This event has been cancelled') . '</span>';
-          break;
+            break;
           case 3 :
             $text = '<span class="alert alert-danger">' . t('This event is now sold out') . '</span>';
-          break;
+            break;
         }
       }
       if ($text) {
         $element[0]['#markup'] = $text;
       }
 
-    break;
+      break;
 
     case 'external_registration_link' :
       foreach ($items as $delta => $item) {
         $link = $item['display_url'];
         $title = $item['title'];
-        if($link == $title) {
+        if ($link == $title) {
           $title = NULL;
         }
       }
@@ -945,12 +738,13 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
       if ($entity->field_external_event_status[LANGUAGE_NONE][0]['value'] == 1) {
         if ($title) {
           $element[0]['#markup'] = l($title, $link, array('attributes' => array('class' => array('ext-register btn btn-success'))));
-        } else {
+        }
+        else {
           $element[0]['#markup'] = l(t('Register'), $link, array('attributes' => array('class' => array('ext-register btn btn-success'))));
         }
       }
 
-    break;
+      break;
 
     case 'event_series_link' :
       $display_terms = array();
@@ -959,23 +753,23 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         $term = taxonomy_term_load($tid);
         $translated_term = i18n_taxonomy_localize_terms($term);
 
-          if ($translated_term) {
+        if ($translated_term) {
 
-            $display_terms[] = l(
-                $translated_term->name,
-                'program',
-                array('query' => array('f[' . $delta . ']' => 'field_series_1:' . $tid
-                )));
-          }
-          if ($delta == 2) {
-            break;
-          }
+          $display_terms[] = l(
+            $translated_term->name,
+            'program',
+            array('query' => array('f[' . $delta . ']' => 'field_series_1:' . $tid
+            )));
         }
-        if ($display_terms) {
-          $element[0]['#markup'] = implode(' ', $display_terms);
+        if ($delta == 2) {
+          break;
         }
+      }
+      if ($display_terms) {
+        $element[0]['#markup'] = implode(' ', $display_terms);
+      }
 
-    break;
+      break;
 
   }
 
@@ -1020,21 +814,24 @@ function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $fiel
           format_date($sorted_dates[0], 'custom', ' l ') .
           format_date($sorted_dates[0], 'event_day') . t(' at ') .
           format_date($sorted_dates[0], 'event_time');
-      } else {
+      }
+      else {
         $html =
           format_date($sorted_dates[0], 'custom', ' l') . 's, ' .
           format_date($start_date, 'event_day') . t(' - ') .
           format_date($sorted_dates[$date_count - 1], 'event_day') . '<br/>' .
           format_date($sorted_dates[0], 'event_time');
       }
-    } else {
+    }
+    else {
       setlocale(LC_ALL, 'fr_CA.utf8');
       if ($date_count == 1) {
         $html =
           'Le ' . format_date($sorted_dates[0], 'custom', ' l ') .
           format_date($sorted_dates[0], 'custom', 'j F') . t(' at ') .
           str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
-      } else {
+      }
+      else {
         $html =
           'Les ' . strtolower(trim(format_date($sorted_dates[0], 'custom', ' l'))) . 's, ' .
           format_date($start_date, 'custom', 'j F, Y') . t(' - ') .
@@ -1043,7 +840,7 @@ function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $fiel
       }
     }
     $html = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . $html . '</p>';
-    if($date_count > 1) $html .= '<p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
+    if ($date_count > 1) $html .= '<p>' . $date_count . ' ' . t('sessions remaining') . '</p>';
     return $html;
   }
   return;
@@ -1055,21 +852,13 @@ function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $fiel
 function opl_field_formatters_menu() {
   $items = array();
 
-  $items['node/%node/opl_add_to_calendar.ics'] = array(
-      'title' => t('Add to Calendar'),
-      'page callback' => 'opl_field_formatters_ics_download',
-      'page arguments' => array(1),
-      'access callback' => 'node_access',
-      'access arguments' => array('view', 1),
-      'type' => MENU_CALLBACK,
-  );
   $items['node/%node/opl_new_add_to_calendar.ics'] = array(
-      'title' => t('Add to Calendar'),
-      'page callback' => 'opl_field_formatters_ics_download_new',
-      'page arguments' => array(1),
-      'access callback' => 'node_access',
-      'access arguments' => array('view', 1),
-      'type' => MENU_CALLBACK,
+    'title' => 'Add to Calendar',
+    'page callback' => 'opl_field_formatters_ics_download_new',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -1081,73 +870,15 @@ function opl_field_formatters_menu() {
  * Calendar functions
  */
 
-function opl_field_formatters_ics_download($node) {
-  global $language;
-  $lang = $language->language;
-
-  drupal_add_http_header('Content-Type','text/calendar; charset=utf-8;');
-  drupal_add_http_header('Content-Disposition','inline; filename="add_to_calendar.ics";');
-
-// 	$description = t("Read more at !link", array('!link' => url('node/' . $node->nid, array('absolute' => TRUE))));
-  $description = isset($node->body['en'][0]['safe_value']) ? $node->body['en'][0]['safe_value'] : $node->body[LANGUAGE_NONE][0]['safe_value'];
-  $created = date("Ymd\THis\Z",$node->created);
-  $reservations = opl_booking_load_by_event_nid($node->nid);
-  if (isset($reservations) && !empty($reservations)) {
-    $dates = array();
-    // $loc_details = array();
-    foreach ($reservations as $rid => $reservation) {
-      $dates[] = $reservation->field_reservation_date[LANGUAGE_NONE][0]['value'];
-    }
-  }
-  $title = $node->title;
-  $date_c = array();
-  $branch_id = $node->field_event_branch[LANGUAGE_NONE][0]['target_id'];
-  $branch = node_load($branch_id);
-  $branch_name = $branch->title;
-
-  foreach ($dates as $key => $value) {
-    if (isset($value) && !empty($value) && $value >= strtotime('today')) {
-      $date_c[] = $value;
-    }
-  }
-  $duration = $reservation->field_event_duration[LANGUAGE_NONE][0]['value'];
-  $date_output = '';
-  foreach ($date_c as $did=>$date) {
-    $startdate = date("Ymd\THis",$date);
-    $enddate = date("Ymd\THis",($date + ($duration * 60)));
-    $date_output .= "BEGIN:VEVENT
-DTSTAMP:$created
-UID:event$node->nid-$did@biblioottawalibrary.ca
-ORGANIZER;CN=Ottawa Public Library:MAILTO:infoservice@biblioottawalibrary.ca
-DTSTART;TZID=America/Toronto:$startdate
-DTEND;TZID=America/Toronto:$enddate
-SUMMARY:$title
-DESCRIPTION:$description
-LOCATION:$branch_name
-SEQUENCE:0
-END:VEVENT\r\n";
-  }
-
-  print "BEGIN:VCALENDAR
-PRODID:-//Calendar//Calendar Event//EN
-VERSION:2.0
-METHOD:PUBLISH
-$date_output
-END:VCALENDAR";
-  exit();
-}
-
-// For post booking update
 function opl_field_formatters_ics_download_new($node) {
   global $language;
   $lang = $language->language;
 
-  drupal_add_http_header('Content-Type','text/calendar; charset=utf-8;');
-  drupal_add_http_header('Content-Disposition','inline; filename="add_to_calendar.ics";');
+  drupal_add_http_header('Content-Type', 'text/calendar; charset=utf-8;');
+  drupal_add_http_header('Content-Disposition', 'inline; filename="add_to_calendar.ics";');
 
-// 	$description = t("Read more at !link", array('!link' => url('node/' . $node->nid, array('absolute' => TRUE))));
-  $description = isset($node->body['en'][0]['safe_value']) ? $node->body['en'][0]['safe_value'] : $node->body[LANGUAGE_NONE][0]['safe_value'];
-  $created = date("Ymd\THis\Z",$node->created);
+  $description = isset($node->body['en'][0]['value']) ? $node->body['en'][0]['value'] : $node->body[LANGUAGE_NONE][0]['value'];
+  $created = date("Ymd\THis\Z", $node->created);
   $bookings = opl_booking_load_by_event_nid($node->nid);
   if (isset($bookings) && !empty($bookings)) {
     $dates = array();
@@ -1169,9 +900,9 @@ function opl_field_formatters_ics_download_new($node) {
   }
   $duration = $booking->field_event_duration[LANGUAGE_NONE][0]['value'];
   $date_output = '';
-  foreach ($date_c as $did=>$date) {
-    $startdate = date("Ymd\THis",$date);
-    $enddate = date("Ymd\THis",($date + ($duration * 60)));
+  foreach ($date_c as $did => $date) {
+    $startdate = date("Ymd\THis", $date);
+    $enddate = date("Ymd\THis", ($date + ($duration * 60)));
     $date_output .= "BEGIN:VEVENT
 DTSTAMP:$created
 UID:event$node->nid-$did@biblioottawalibrary.ca
@@ -1198,53 +929,6 @@ END:VCALENDAR";
  * wrapper function around opl_booking_load_by_event_nid
  */
 
-//This will need to be updated or replaced after Frank's update from bookings-reservations-refactor branch
-
-function _opl_field_formatters_get_reservations(&$entity) {
-  global $language;
-  $sorted_dates = array();
-  $curdates = array();
-  $reservations = opl_booking_load_by_event_nid($entity->nid);
-  $loc_details = array();
-
-  //if there's registrations and the event is not past, cancelled
-  if (isset($reservations) && !empty($reservations)) {
-    foreach ($reservations as $rid => $reservation) {
-      $meeting_room_node = node_load($reservation->field_meeting_room[LANGUAGE_NONE][0]['target_id']);
-      //Test Getachew
-      $booking_wrapper = entity_metadata_wrapper('opl_booking', $reservation);
-      if(array_key_exists("event_start_time",$booking_wrapper->getPropertyInfo() ) ) {
-        $eventdate = format_date($booking_wrapper->event_start_time->value());
-        $onlydate = explode(' - ', $eventdate);
-      }
-      $todayd= date("F d, Y");
-      if ($language->language == 'fr'){
-        setlocale(LC_ALL, 'fr_CA.utf8');
-        $todayf= strftime("%A %d %B %Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
-      }
-
-      if ($reservation->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
-        if(array_key_exists("event_start_time",$booking_wrapper->getPropertyInfo() ) ) {
-          $sorted_dates[] = $booking_wrapper->event_start_time->value();
-        }
-      }
-    }
-    asort($sorted_dates);
-
-    foreach ($sorted_dates as $sd => $sorted_date) {
-      $curdates = str_replace('h 00', 'h', format_date($sorted_date, 'long'));
-      $loc_details[] = array(
-          'date' => $curdates,
-          'room' => $meeting_room_node->title,
-          'duration' => $reservation->field_event_duration[LANGUAGE_NONE][0]['value'] . ' ' . t('mins.'),
-      );
-    }
-
-
-  }
-    return $loc_details;
-}
-
 function _opl_field_formatters_get_bookings(&$entity) {
   global $language;
   $sorted_dates = array();
@@ -1257,20 +941,20 @@ function _opl_field_formatters_get_bookings(&$entity) {
     foreach ($bookings as $bid => $booking) {
       $meeting_room_node = node_load($booking->field_resource[LANGUAGE_NONE][0]['target_id']);
       $booking_wrapper = entity_metadata_wrapper('opl_booking', $booking);
-      if(array_key_exists("event_start_time",$booking_wrapper->getPropertyInfo() ) ) {
+      if (array_key_exists("event_start_time", $booking_wrapper->getPropertyInfo() ) ) {
         $eventdate =  format_date($booking_wrapper->event_start_time->value());
         //Test Getachew
         $onlydate = explode(' - ', $eventdate);
 
       }
       $todayd= date("F d, Y");
-      if ($language->language == 'fr'){
+      if ($language->language == 'fr') {
         setlocale(LC_ALL, 'fr_CA.utf8');
         $todayf= strftime("%A %d %B %Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
       }
 
       if ($booking->field_reservation_date[LANGUAGE_NONE][0]['value'] > strtotime($todayd)) {
-        if(array_key_exists("event_start_time",$booking_wrapper->getPropertyInfo() )) {
+        if (array_key_exists("event_start_time", $booking_wrapper->getPropertyInfo() )) {
           $sorted_dates[] =  $booking_wrapper->event_start_time->value();
         }
       }
