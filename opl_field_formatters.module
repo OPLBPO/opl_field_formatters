@@ -522,7 +522,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
 
         // $restricted = field_view_value('node', $entity, 'field_resource_in_library', $items[0]);
         $restricted = $wrapper->field_resource_in_library->value() == 'Yes' ? TRUE : FALSE;
-        $title = $wrapper->title_field->value();
+        $title = $wrapper->title->value();
         $tooltip = user_is_logged_in() ? t('Go to') : t('Log in and go to');
         // $entity->field_resource_in_library[LANGUAGE_NONE][0]['value'] == 'Yes' ? $restricted = TRUE : $restricted = FALSE;
         if (is_null($query)) {
@@ -531,9 +531,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               'html' => TRUE,
               'attributes' => array(
                   'class' => array('btn', 'btn-primary'),
-                 // 'title' => $tooltip . ' ' . $title,
-                 // 'data-toggle' => 'tooltip',
-                 // 'data-placement' => 'bottom',
+                // 'title' => $tooltip . ' ' . $title,
+                // 'data-toggle' => 'tooltip',
+                // 'data-placement' => 'bottom',
               ),
           );
         }
@@ -544,9 +544,9 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
               'html' => TRUE,
               'attributes' => array(
                   'class' => array('btn', 'btn-primary'),
-                 // 'title' => $tooltip . ' ' . $title,
-                 // 'data-toggle' => 'tooltip',
-                 // 'data-placement' => 'bottom',
+                // 'title' => $tooltip . ' ' . $title,
+                // 'data-toggle' => 'tooltip',
+                // 'data-placement' => 'bottom',
               ),
           );
         }
@@ -626,13 +626,13 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             $classes = array('svg-object', 'svg-image', 'img-responsive');
 
             $attrs = array(
-              'class' => $classes
+                'class' => $classes
             );
             $attrs['data'] = file_create_url($item['uri']);
             $attrs['type'] = "image/svg+xml";
 
             $render_map = array(
-              '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
+                '#markup' => '<object' . drupal_attributes($attrs) . '></object>',
             );
           }
           else {
@@ -644,10 +644,10 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         else {
           $element[$delta] = array(
-            '#theme' => 'image_formatter',
-            '#item' => $item,
-            '#image_style' => $display['settings']['image_style'],
-            '#path' => isset($uri) ? $uri : '',
+              '#theme' => 'image_formatter',
+              '#item' => $item,
+              '#image_style' => $display['settings']['image_style'],
+              '#path' => isset($uri) ? $uri : '',
           );
         }
       }
@@ -685,7 +685,7 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
             $attrs['type'] = "image/svg+xml";
 
             $render_map = array(
-              '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
+                '#markup' => '<object' . drupal_attributes($attrs) . '><img src="' . file_create_url($item['uri']) . '.png" /></object>',
             );
           }
 
@@ -694,10 +694,10 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         }
         else {
           $element[$delta] = array(
-            '#theme' => 'image_formatter',
-            '#item' => $item,
-            '#image_style' => $display['settings']['image_style'],
-            '#path' => isset($uri) ? $uri : '',
+              '#theme' => 'image_formatter',
+              '#item' => $item,
+              '#image_style' => $display['settings']['image_style'],
+              '#path' => isset($uri) ? $uri : '',
           );
         }
       }
@@ -756,10 +756,10 @@ function opl_field_formatters_field_formatter_view($entity_type, $entity, $field
         if ($translated_term) {
 
           $display_terms[] = l(
-            $translated_term->name,
-            'program',
-            array('query' => array('f[' . $delta . ']' => 'field_series_1:' . $tid
-            )));
+              $translated_term->name,
+              'program',
+              array('query' => array('f[' . $delta . ']' => 'field_series_1:' . $tid
+              )));
         }
         if ($delta == 2) {
           break;
@@ -811,32 +811,32 @@ function _opl_field_formatter_event_node_full_dates($entity_type, $entity, $fiel
     if ($lang == 'en') {
       if ($date_count == 1) {
         $html =
-          format_date($sorted_dates[0], 'custom', ' l ') .
-          format_date($sorted_dates[0], 'event_day') . t(' at ') .
-          format_date($sorted_dates[0], 'event_time');
+            format_date($sorted_dates[0], 'custom', ' l ') .
+            format_date($sorted_dates[0], 'event_day') . t(' at ') .
+            format_date($sorted_dates[0], 'event_time');
       }
       else {
         $html =
-          format_date($sorted_dates[0], 'custom', ' l') . 's, ' .
-          format_date($start_date, 'event_day') . t(' - ') .
-          format_date($sorted_dates[$date_count - 1], 'event_day') . '<br/>' .
-          format_date($sorted_dates[0], 'event_time');
+            format_date($sorted_dates[0], 'custom', ' l') . 's, ' .
+            format_date($start_date, 'event_day') . t(' - ') .
+            format_date($sorted_dates[$date_count - 1], 'event_day') . '<br/>' .
+            format_date($sorted_dates[0], 'event_time');
       }
     }
     else {
       setlocale(LC_ALL, 'fr_CA.utf8');
       if ($date_count == 1) {
         $html =
-          'Le ' . format_date($sorted_dates[0], 'custom', ' l ') .
-          format_date($sorted_dates[0], 'custom', 'j F') . t(' at ') .
-          str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
+            'Le ' . format_date($sorted_dates[0], 'custom', ' l ') .
+            format_date($sorted_dates[0], 'custom', 'j F') . t(' at ') .
+            str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
       }
       else {
         $html =
-          'Les ' . strtolower(trim(format_date($sorted_dates[0], 'custom', ' l'))) . 's, ' .
-          format_date($start_date, 'custom', 'j F, Y') . t(' - ') .
-          format_date($sorted_dates[$date_count - 1], 'custom', 'j F, Y') . '<br/>' .
-          str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
+            'Les ' . strtolower(trim(format_date($sorted_dates[0], 'custom', ' l'))) . 's, ' .
+            format_date($start_date, 'custom', 'j F, Y') . t(' - ') .
+            format_date($sorted_dates[$date_count - 1], 'custom', 'j F, Y') . '<br/>' .
+            str_replace('h00', 'h', format_date($sorted_dates[0], 'event_time'));
       }
     }
     $html = '<p class="card-date"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> ' . $html . '</p>';
@@ -853,12 +853,12 @@ function opl_field_formatters_menu() {
   $items = array();
 
   $items['node/%node/opl_new_add_to_calendar.ics'] = array(
-    'title' => 'Add to Calendar',
-    'page callback' => 'opl_field_formatters_ics_download_new',
-    'page arguments' => array(1),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 1),
-    'type' => MENU_CALLBACK,
+      'title' => 'Add to Calendar',
+      'page callback' => 'opl_field_formatters_ics_download_new',
+      'page arguments' => array(1),
+      'access callback' => 'node_access',
+      'access arguments' => array('view', 1),
+      'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -882,7 +882,7 @@ function opl_field_formatters_ics_download_new($node) {
   $bookings = opl_booking_load_by_event_nid($node->nid);
   if (isset($bookings) && !empty($bookings)) {
     $dates = array();
-    // $loc_details = array();
+    // @todo Change this to computed property for dates.
     foreach ($bookings as $bid => $booking) {
       $dates[] = $booking->field_reservation_date[LANGUAGE_NONE][0]['value'];
     }
