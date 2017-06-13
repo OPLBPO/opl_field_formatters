@@ -884,7 +884,10 @@ function opl_field_formatters_ics_download_new($node) {
     $dates = array();
     // @todo Change this to computed property for dates.
     foreach ($bookings as $bid => $booking) {
-      $dates[] = $booking->field_reservation_date[LANGUAGE_NONE][0]['value'];
+      $booking_wrapper = entity_metadata_wrapper('opl_booking', $booking);
+      if (array_key_exists("event_start_time", $booking_wrapper->getPropertyInfo() )) {
+        $dates[] =  $booking_wrapper->event_start_time->value();
+      }
     }
   }
   $title = $node->title;
