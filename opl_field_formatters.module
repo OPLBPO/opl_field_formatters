@@ -179,7 +179,7 @@ function opl_field_formatters_field_formatter_prepare_view($entity_type, $entiti
           $series = $wrapper->field_series_1->value();
           if ($series) {
             foreach ($series as $delta => $series_ex) {
-              if ($series_ex->tid == 1554) {
+              if (in_array($series_ex->tid, array('1554', '1563'))) {
                 $items[$id] = $series_ex->field_term_image[LANGUAGE_NONE];
               }
             }
